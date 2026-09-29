@@ -1,0 +1,18 @@
+#Fichiers secrets
+.env
+
+# Configuration de vsc
+.vscode/
+
+# Fichiers système mac
+.DS_Store
+
+# Fichiers système Windows
+Thumbs.db
+
+# Logs
+*.log
+
+#Dépendances
+/vendor/
+
