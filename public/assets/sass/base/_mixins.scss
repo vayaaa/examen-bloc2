@@ -1,0 +1,33 @@
+@use "variables" as v;
+
+
+//Container
+@mixin container-center($max-width: 600px) {
+    width: min(90%, $max-width);
+    margin: 0 auto;
+    background-color: v.$bg-color;
+    padding: 1.6rem;
+    border-radius: 1.6rem;
+}
+
+
+//Boutons
+@mixin button-base {
+    border: none;
+    border-radius: 0.8rem;
+    padding: 1.2rem 2.5rem;
+    font-family: inherit;
+    font-weight: v.$font-weight-bold;
+    cursor: pointer;
+}
+
+@mixin yellowButton {
+    @include button-base;
+    background-color: v.$main-yellow;
+}
+
+@mixin outline-button {
+    @include button-base;
+    border: 0.1rem solid v.$border;
+    background-color: v.$bg-color;
+}

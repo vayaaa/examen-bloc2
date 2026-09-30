@@ -1,0 +1,72 @@
+@use "base/variables" as v;
+@use 'base/mixins' as m;
+
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: v.$font-size-base;
+    font-family: v.$font-main;
+    color: v.$text-color;
+}
+
+main {
+    min-height: 100vh;
+    background-color: v.$main-yellow;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    #logo {
+        width: 5rem;
+        position: absolute;
+        top: 6rem;
+    }
+
+    #login {
+        @include m.container-center(50rem);
+
+        h1 {
+            margin: 2rem 0 5rem;
+            font-weight: 700;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                margin: 0;
+
+                .reset-password {
+                    font-size: 1rem;
+                    color: v.$border;
+                    margin: 0;
+                    align-self: flex-end
+                }
+            }
+
+
+            .connect-button {
+                @include m.outline-button;
+                align-self: center;
+
+                &:hover {
+                    background-color: v.$main-yellow;
+                }
+            }
+        }
+
+    }
+}
