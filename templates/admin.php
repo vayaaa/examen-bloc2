@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wacdo - Admin</title>
-    <link rel="stylesheet" href="../public/assets/css/main.css" />
+    <title>Wacdo - Administrateur</title>
+    <link rel="stylesheet" href="./assets/css/main.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,35 +14,30 @@
 </head>
 
 <body>
+    <?php include(DIR_TEMPLATES . "header.php"); ?>
 
-    <main>
-        <img id="logo" src="../public/assets/img/logo.png" alt="logo wacdo">
-
-        <section id="login">
-            <h1>Admin</h1>
-
-            <?php if ($errorMessage !== "") { ?>
-                <p class="error"><?= $errorMessage ?> </p>
-
-            <?php } ?>
-
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" name="email" id="inputEmail" placeholder="Email" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required />
-                    <a class="reset-password" href="./reset-password">mot de passe oublié?</a>
-
-                </div>
+    <main class="container">
 
 
-                <input class="connect-button" type="submit" value="Se connecter" />
+        <section id="menu">
+            <ul>
+                <li>
+                    <button>Tableau de bord</button>
+                </li>
+                <li>
+                    <button>Commandes</button>
+                </li>
+                <li>
+                    <button>Utilisateurs</button>
+                </li>
+            </ul>
+        </section>
 
-            </form>
+        <section id="screen">
+
+
+
+
 
         </section>
 

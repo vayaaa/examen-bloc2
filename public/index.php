@@ -9,8 +9,6 @@ $dsn = "mysql:host=" . DB_HOSTNAME . ";dbname=" . DB_DATABASE;
 $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
 
 
-
-
 $page = "login";
 if (isset($_GET["page"]) && !empty($_GET["page"])) {
     $page = $_GET["page"];

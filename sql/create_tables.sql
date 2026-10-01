@@ -1,27 +1,21 @@
+-- Création des tables 
 
 CREATE TABLE IF NOT EXISTS roles (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-name VARCHAR(100) NOT NULL
+name VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS  categories (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT ,
-name VARCHAR(100) NOT NULL
+name VARCHAR(100) NOT NULL UNIQUE,
+image VARCHAR(255) NULL
 );
 
 CREATE TABLE IF NOT EXISTS options (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(100) NOT NULL,
-price DECIMAL(10,2) NOT NULL,
+price DECIMAL(10,2) NOT NULL DEFAULT 0,
 image VARCHAR(300) NULL
-);
-
-CREATE TABLE IF NOT EXISTS orders (
-id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-ticket_number VARCHAR(100) NOT NULL,
-order_date DATETIME NOT NULL,
-total_price DECIMAL(10,2) NOT NULL,
-status VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS menus (
@@ -29,16 +23,19 @@ id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 name VARCHAR(255) NOT NULL,
 description TEXT NULL,
 price  DECIMAL(10,2) NOT NULL, 
-image VARCHAR(255) NOT NULL
+image VARCHAR(255) NOT NULL,
+is_available TINYINT(1) NOT NULL DEFAULT 1
 );
 
+
+-- tables dépendantes
 
 CREATE TABLE IF NOT EXISTS users (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 role_id INT UNSIGNED NOT NULL,
 first_name VARCHAR(100) NOT NULL,
 last_name VARCHAR(100) NOT NULL,
-email VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL UNIQUE,
 password VARCHAR(255) NOT NULL, -- hash de password_hash()
 FOREIGN KEY(role_id)REFERENCES roles(id)
 );
@@ -46,41 +43,59 @@ FOREIGN KEY(role_id)REFERENCES roles(id)
 CREATE TABLE IF NOT EXISTS products (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 category_id INT UNSIGNED NOT NULL,
-FOREIGN KEY(category_id)REFERENCES categories(id),
 name VARCHAR(255) NOT NULL,
 description TEXT NULL,
 price DECIMAL(10,2) NOT NULL,
-image VARCHAR(255) NOT NULL
+image VARCHAR(255) NOT NULL,
+is_available TINYINT(1) NOT NULL DEFAULT 1,
+FOREIGN KEY(category_id)REFERENCES categories(id)
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+user_id INT UNSIGNED NULL, -- NULL si la commande vient de la borne
+ticket_number VARCHAR(100) NOT NULL UNIQUE,
+source ENUM('borne', 'comptoir', 'telephone') NOT NULL,
+status ENUM('to_prepare', 'prepared', 'delivered') NOT NULL DEFAULT 'to_prepare',
+order_date DATETIME NOT NULL,
+delivery_time DATETIME NOT NULL,
+total_price DECIMAL(10,2) NOT NULL,
+FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
 
-CREATE TABLE product_options(
+
+-- tables de liaison
+
+CREATE TABLE IF NOT EXISTS product_options(
     product_id INT UNSIGNED NOT NULL,
     option_id INT UNSIGNED NOT NULL,
     PRIMARY KEY(product_id, option_id),
-    FOREIGN KEY(product_id ) REFERENCES products(id),
-    FOREIGN KEY(option_id ) REFERENCES options(id)
-)
+    FOREIGN KEY(product_id ) REFERENCES products(id) ON DELETE CASCADE,
+    FOREIGN KEY(option_id ) REFERENCES options(id) ON DELETE CASCADE
+);
 
 
-CREATE TABLE menu_product(
+CREATE TABLE IF NOT EXISTS menu_products(
     menu_id INT UNSIGNED NOT NULL,
     product_id INT UNSIGNED NOT NULL,
     quantity TINYINT UNSIGNED NOT NULL,
     PRIMARY KEY(product_id, menu_id),
     FOREIGN KEY(product_id ) REFERENCES products(id),
-    FOREIGN KEY(menu_id ) REFERENCES menus(id)
-)
+    FOREIGN KEY(menu_id ) REFERENCES menus(id) ON DELETE CASCADE
+);
 
 
 CREATE TABLE IF NOT EXISTS order_items (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-orders_id INT UNSIGNEDNOT NULL,
-products_id INT UNSIGNED NOT NULL,
+order_id INT UNSIGNED NOT NULL,
+product_id INT UNSIGNED NULL,
+menu_id INT UNSIGNED NULL,
 name VARCHAR(255) NOT NULL,
 quantity TINYINT UNSIGNED NOT NULL,
 price DECIMAL(10,2) NOT NULL,
-FOREIGN KEY(orders_id)REFERENCES orders(id),
-FOREIGN KEY(products_id)REFERENCES products(id)
+FOREIGN KEY(order_id)REFERENCES orders(id) ON DELETE CASCADE,
+FOREIGN KEY(product_id)REFERENCES products(id),
+FOREIGN KEY (menu_id) REFERENCES menus(id)
 );
 

@@ -55,7 +55,7 @@ class LoginController
             header("location: index.php?page=admin");
         }
 
-        if ($role === "prepare") {
+        if ($role === "preparation") {
             header("location: index.php?page=prep");
         }
 
