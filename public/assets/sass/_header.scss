@@ -1,0 +1,48 @@
+@use "base/variables" as v;
+@use 'base/mixins' as m;
+
+
+header {
+    width: 100%;
+    min-height: 5rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    margin-bottom:2rem;
+
+    #logo {
+        width: 5rem;
+        height: auto;
+    }
+
+    nav ul {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        li {
+            display: flex;
+            align-items: center;
+
+            .role {
+                color: v.$main-yellow;
+                font-weight: 700;
+                font-size: 2rem;
+            }
+
+            .button {
+                @include m.outline-button;
+                align-self: center;
+                color: v.$text-color;
+                text-decoration: none;
+
+
+            }
+        }
+    }
+}

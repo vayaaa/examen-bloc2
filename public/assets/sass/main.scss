@@ -1,6 +1,8 @@
 @use "base/variables" as v;
 @use 'base/mixins' as m;
 
+@use "admin";
+@use "header";
 
 html {
     font-size: 62.5%;
@@ -9,13 +11,13 @@ html {
 body {
     margin: 0;
     padding: 0;
-    overflow: hidden;
     font-size: v.$font-size-base;
     font-family: v.$font-main;
     color: v.$text-color;
 }
 
-main {
+.login-container {
+     overflow: hidden;
     min-height: 100vh;
     background-color: v.$main-yellow;
     display: flex;

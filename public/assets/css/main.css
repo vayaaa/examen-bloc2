@@ -1,3 +1,244 @@
+.admin-container {
+  overflow: hidden;
+  display: flex;
+  margin: 2rem;
+  height: calc(100vh - 8rem - 4rem);
+  border: 1px solid black;
+}
+.admin-container #menu {
+  width: 15rem;
+  flex-shrink: 0;
+  background-color: #cac8c8;
+  border-right: 1px solid black;
+}
+.admin-container #menu ul {
+  margin: 0;
+  padding: 2rem 1rem;
+  list-style: none;
+}
+.admin-container #menu .elements {
+  border: none;
+  background: transparent;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #292929;
+  text-decoration: none;
+}
+.admin-container #menu .elements.selected {
+  font-weight: 700;
+}
+.admin-container #screen {
+  flex: 1;
+  padding: 2rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#dashboard h1 {
+  margin-top: 0;
+}
+#dashboard .dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#dashboard .card {
+  min-height: 20rem;
+  border: 1px solid #292929;
+  border-radius: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#dashboard .card:hover {
+  box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.15);
+}
+#dashboard .card a,
+#dashboard .card .card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: #292929;
+}
+#dashboard .card h4 {
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+}
+#dashboard .card p {
+  margin: 0;
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+#products,
+#menus,
+#users,
+#orders {
+  width: 100%;
+  height: 100%;
+}
+#products h1,
+#menus h1,
+#users h1,
+#orders h1 {
+  margin: 0 0 2rem;
+}
+#products .table-container,
+#menus .table-container,
+#users .table-container,
+#orders .table-container {
+  width: 100%;
+  height: calc(100% - 4rem);
+  overflow: auto;
+  border: 1px solid #292929;
+  border-radius: 0.8rem;
+}
+#products .table-container table,
+#menus .table-container table,
+#users .table-container table,
+#orders .table-container table {
+  width: 100%;
+  border-spacing: 0;
+}
+#products .table-container table th,
+#products .table-container table td,
+#menus .table-container table th,
+#menus .table-container table td,
+#users .table-container table th,
+#users .table-container table td,
+#orders .table-container table th,
+#orders .table-container table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eceaea;
+}
+#products .table-container table th,
+#menus .table-container table th,
+#users .table-container table th,
+#orders .table-container table th {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-color: #FFC836;
+}
+#products .table-container table td,
+#menus .table-container table td,
+#users .table-container table td,
+#orders .table-container table td {
+  font-size: 1rem;
+}
+
+#products .table-container table td img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+#products .table-container table .dropdown {
+  position: relative;
+}
+#products .table-container table .dropdown .drop-btn {
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  background-color: transparent;
+  color: #292929;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+  font-family: "Source Sans 3", sans-serif;
+  text-align: start;
+}
+#products .table-container table .dropdown .drop-btn .chevron {
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+#products .table-container table .dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 12rem;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+#products .table-container table .dropdown .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+#products .table-container table .dropdown .dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+#products .table-container table .dropdown:hover .dropdown-content {
+  display: block;
+}
+#products .table-container table .dropdown:hover .chevron {
+  transform: rotate(180deg);
+}
+
+#menus .table-container table td img {
+  width: 5rem;
+  height: 5rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+header {
+  width: 100%;
+  min-height: 5rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  margin-bottom: 2rem;
+}
+header #logo {
+  width: 5rem;
+  height: auto;
+}
+header nav ul {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+header nav ul li {
+  display: flex;
+  align-items: center;
+}
+header nav ul li .role {
+  color: #FFC836;
+  font-weight: 700;
+  font-size: 2rem;
+}
+header nav ul li .button {
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  border: 0.1rem solid #6E6E6E;
+  background-color: white;
+  align-self: center;
+  color: #292929;
+  text-decoration: none;
+}
+
 html {
   font-size: 62.5%;
 }
@@ -5,13 +246,13 @@ html {
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
   font-size: 1.6rem;
   font-family: "Source Sans 3", sans-serif;
   color: #292929;
 }
 
-main {
+.login-container {
+  overflow: hidden;
   min-height: 100vh;
   background-color: #FFC836;
   display: flex;
@@ -20,40 +261,40 @@ main {
   align-items: center;
   position: relative;
 }
-main #logo {
+.login-container #logo {
   width: 5rem;
   position: absolute;
   top: 6rem;
 }
-main #login {
+.login-container #login {
   width: min(90%, 50rem);
   margin: 0 auto;
   background-color: white;
   padding: 1.6rem;
   border-radius: 1.6rem;
 }
-main #login h1 {
+.login-container #login h1 {
   margin: 2rem 0 5rem;
   font-weight: 700;
 }
-main #login form {
+.login-container #login form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
-main #login form .form-group {
+.login-container #login form .form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin: 0;
 }
-main #login form .form-group .reset-password {
+.login-container #login form .form-group .reset-password {
   font-size: 1rem;
   color: #6E6E6E;
   margin: 0;
   align-self: flex-end;
 }
-main #login form .connect-button {
+.login-container #login form .connect-button {
   border: none;
   border-radius: 0.8rem;
   padding: 1.2rem 2.5rem;
@@ -64,7 +305,7 @@ main #login form .connect-button {
   background-color: white;
   align-self: center;
 }
-main #login form .connect-button:hover {
+.login-container #login form .connect-button:hover {
   background-color: #FFC836;
 }
 

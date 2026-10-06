@@ -14,42 +14,37 @@
 </head>
 
 <body>
+    <?php include(DIR_TEMPLATES . "header.php"); ?>
 
     <main>
-        <img id="logo" src="../public/assets/img/logo.png" alt="logo wacdo">
+      
+    <main class="prep-container">
 
-        <section id="login">
-            <h1>Préparation</h1>
+        <section id="menu">
+            <ul>
+                <li>
+                    <a class="elements <?= $section === 'dashboard' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=dashboard"> Tableau de bord </a>
+                </li>
+                <li>
+                    <a class="elements <?= $section === 'products' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=products">Produits</a>
+                </li>
+                <li>
+                    <a class="elements <?= $section === 'menus' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=menus">Menus</a>
+                </li>
+                <li>
+                    <a class="elements <?= $section === 'orders' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=orders">Commandes</a>
+                </li>
 
-            <?php if ($errorMessage !== "") { ?>
-                <p class="error"><?= $errorMessage ?> </p>
-
-            <?php } ?>
-
-            <form action="" method="post">
-                <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" name="email" id="inputEmail" placeholder="Email" required />
-                </div>
-
-                <div class="form-group">
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required />
-                    <a class="reset-password" href="./reset-password">mot de passe oublié?</a>
-
-                </div>
-
-
-                <input class="connect-button" type="submit" value="Se connecter" />
-
-            </form>
-
+            </ul>
         </section>
 
-
-
-
-
+        <section id="screen">
+            <?php include(DIR_TEMPLATES . "menu/" . $section . ".php"); ?>
+        </section>
     </main>
 
 

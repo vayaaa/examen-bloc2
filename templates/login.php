@@ -15,7 +15,7 @@
 
 <body>
 
-    <main>
+    <main class="login-container">
         <img id="logo" src="./assets/img/logo.png" alt="logo wacdo">
 
         <section id="login">

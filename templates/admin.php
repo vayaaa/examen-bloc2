@@ -16,37 +16,38 @@
 <body>
     <?php include(DIR_TEMPLATES . "header.php"); ?>
 
-    <main class="container">
-
+    <main class="admin-container">
 
         <section id="menu">
             <ul>
                 <li>
-                    <button>Tableau de bord</button>
+                    <a class="elements <?= $section === 'dashboard' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=dashboard"> Tableau de bord </a>
                 </li>
                 <li>
-                    <button>Commandes</button>
+                    <a class="elements <?= $section === 'products' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=products">Produits</a>
                 </li>
                 <li>
-                    <button>Utilisateurs</button>
+                    <a class="elements <?= $section === 'menus' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=menus">Menus</a>
                 </li>
+                <li>
+                    <a class="elements <?= $section === 'users' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=users">Utilisateurs</a>
+                </li>
+                <li>
+                    <a class="elements <?= $section === 'orders' ? 'selected' : '' ?>"
+                        href="index.php?page=admin&amp;section=orders">Commandes</a>
+                </li>
+
             </ul>
         </section>
 
         <section id="screen">
-
-
-
-
-
+            <?php include(DIR_TEMPLATES . "admin/" . $section . ".php"); ?>
         </section>
-
-
-
-
-
     </main>
-
 
 </body>
 

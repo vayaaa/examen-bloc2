@@ -25,16 +25,19 @@ $pages = array(
         "model" => "AdminModel",
         "controller" => "AdminController",
         "view" => "AdminView",
+        "roles" => array("admin"),
     ),
     "prep" => array(
         "model" => "PrepModel",
         "controller" => "PrepController",
         "view" => "PrepView",
+        "roles" => array("preparation"),
     ),
     "accueil" => array(
         "model" => "AccueilModel",
         "controller" => "AccueilController",
         "view" => "AccueilView",
+        "roles" => array("accueil"),
     )
 );
 
@@ -52,7 +55,27 @@ foreach ($pages as $key => $value) {
     }
 }
 
+if (!$find) {
+    http_response_code(404);
+    echo "Page introuvable.";
+    exit; // pour éviter que le reste du script (require fichiers) continue de s'exécuter
+}
+
 if ($find) {
+
+    //Protection des pages
+    if (isset($pages[$page]["roles"])) {
+        if (!isset($_SESSION["role"])) {
+            header("Location: index.php?page=login");
+            exit;
+        }
+
+        if (!in_array($_SESSION["role"], $pages[$page]["roles"], true)) {
+            http_response_code(403);
+            die("Accès refusé.");
+        }
+    }
+
     //On importe des diff classes
     require(DIR_MODEL . $page . ".php");
     require(DIR_CONTROLLER . $page . ".php");
