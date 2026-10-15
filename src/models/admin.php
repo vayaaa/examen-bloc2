@@ -10,7 +10,7 @@ class AdminModel
         $this->db = $db;
     }
 
-    //Réupérer les infos de l'utilisateur connecté
+    //Récupérer les infos de l'utilisateur connecté
     public function findUser(string $email): array|false
     {
         $sql = "SELECT users.id, users.first_name, roles.name AS role
@@ -26,7 +26,6 @@ class AdminModel
     }
 
     //Récupération des éléments à afficher dans le screen
-
     //Tableau de bord 
     public function getStats(): array
     {
@@ -45,7 +44,7 @@ class AdminModel
     //Produits
     public function getProducts(): array
     {
-        $products_sql = "SELECT products.id, products.name, products.price, products.is_available, products.image, categories.name AS category
+        $products_sql = "SELECT products.id, products.name, products.price, products.description, products.is_available, products.image, categories.name AS category
                 FROM products
                 JOIN categories ON products.category_id = categories.id
                 ORDER BY categories.name, products.name";
@@ -56,30 +55,62 @@ class AdminModel
         // Récupère tous les produits 
         $products = $query->fetchAll();
 
-        //Correction lien pour chaque img
-        // Corrige les noms des images
         foreach ($products as $key => $product) {
-
-            // Corrige .png.png en .png
-            $products[$key]["image"] = str_replace(
-                ".png.png",
-                ".png",
-                $product["image"]
-            );
-
-            // Corrige .jpg.png en .jpg
-            $products[$key]["image"] = str_replace(
-                ".jpg.png",
-                ".png",
-                $products[$key]["image"]
-            );
+            // Correction lien image
+            $products[$key]["image"] = str_replace(".png.png", ".png", $product["image"]);
+            $products[$key]["image"] = str_replace(".jpg.png", ".png", $products[$key]["image"]);
         }
 
         return $products;
     }
 
+    //Mise à jour des produits
+    public function updateProduct(
+        int $id,
+        string $name,
+        string $description,
+        float $price,
+        string $image,
+        int $isAvailable
+    ): bool {
 
-    //Produits
+        $sql = "UPDATE products
+            SET name = :name,
+            description = :description,
+            price = :price,
+            image = :image,
+            is_available = :is_available
+            WHERE id = :id";
+
+        $query = $this->db->prepare($sql);
+
+        $query->execute([
+            ":name" => $name,
+            ":description" => $description,
+            ":price" => $price,
+            ":image" => $image,
+            ":is_available" => $isAvailable,
+            ":id" => $id
+        ]);
+
+        // Vérifie que le produit existe
+        if ($query->rowCount() === 0) {
+            $check = $this->db->prepare(
+                "SELECT id 
+                FROM products 
+                WHERE id = :id"
+            );
+
+            $check->execute([":id" => $id]);
+
+            return $check->fetch() !== false;
+        }
+
+        return true;
+    }
+
+
+    //Menus
     public function getMenus(): array
     {
         $menus_sql = "SELECT menus.id, menus.name, menus.price, menus.is_available, menus.image
@@ -97,7 +128,7 @@ class AdminModel
     //Utilisateurs
     public function getUsers(): array
     {
-        $users_sql = "SELECT users.id, users.first_name, users.last_name, users.email, roles.name AS role
+        $users_sql = "SELECT users.id, users.first_name, users.last_name, users.email,  users.role_id, roles.name AS role
                 FROM users
                 JOIN roles ON users.role_id = roles.id
                 ORDER BY users.last_name";
@@ -107,6 +138,46 @@ class AdminModel
 
         return $query->fetchAll();
     }
+
+    //Mise à jour des utilisateurs
+    public function updateUser(
+        int $id,
+        string $firstname,
+        string $lastname,
+        string $role,
+    ): bool {
+
+        $sql = "UPDATE users
+            SET first_name = :firstname,
+            last_name = :lastname,
+            role_id = :role
+            WHERE id = :id";
+
+        $query = $this->db->prepare($sql);
+
+        $query->execute([
+            ":firstname" => $firstname,
+            ":lastname" => $lastname,
+            ":role" => $role,
+            ":id" => $id
+        ]);
+
+        // Vérifie que le produit existe
+        if ($query->rowCount() === 0) {
+            $check = $this->db->prepare(
+                "SELECT id 
+                FROM users 
+                WHERE id = :id"
+            );
+
+            $check->execute([":id" => $id]);
+
+            return $check->fetch() !== false;
+        }
+
+        return true;
+    }
+
 
     //Commandes 
     public function getOrders(): array

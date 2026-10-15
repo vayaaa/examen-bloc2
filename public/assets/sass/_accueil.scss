@@ -1,0 +1,336 @@
+@use "base/variables" as v;
+@use "base/mixins" as m;
+
+.accueil-container {
+    overflow: hidden;
+    display: flex;
+    margin: 2rem;
+    height: calc(100vh - 8rem - 4rem);
+    border: 1px solid black;
+
+    #menu {
+        width: 15rem;
+        flex-shrink: 0;
+        background-color: #cac8c8;
+        border-right: 1px solid black;
+
+        ul {
+            margin: 0;
+            padding: 2rem 1rem;
+            list-style: none;
+        }
+
+        .elements {
+            border: none;
+            background: transparent;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: v.$text-color;
+            text-decoration: none;
+
+            &.selected {
+                font-weight: 700;
+            }
+        }
+
+        .elementsNew {
+            border: none;
+            background: transparent;
+            font-size: 1.6rem;
+            cursor: pointer;
+            color: v.$text-color;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            &.selected {
+                font-weight: 700;
+                color: white;
+            }
+
+            #plus {
+                width: 3rem;
+                background-color: white;
+                border-radius: 0.5rem;
+            }
+        }
+
+    }
+
+    #screen {
+        flex: 1;
+        padding: 2rem;
+        min-width: 0;
+        min-height: 0;
+        overflow-y: auto;
+    }
+}
+
+
+//Tableaux dans le screen
+#prepared {
+    @include m.screen;
+
+    .table-container {
+        @include m.table-container;
+
+        table {
+            @include m.table;
+
+            tbody {
+                tr {
+                    td {
+                        form {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin: 0;
+                            padding: 0;
+
+                            .submit-button {
+                                @include m.outline-button;
+                                white-space: nowrap;
+                                margin: 0;
+
+                                &:hover {
+                                    @include m.yellowButton;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#neworder {
+    h1 {
+        margin-top: 0;
+    }
+
+    [hidden] {
+        display: none !important;
+    }
+
+    .message {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1.5rem;
+
+        &.error {
+            border: 1px solid #b00020;
+            color: #b00020;
+        }
+
+        &.success {
+            border: 1px solid #1b7a3d;
+            color: #1b7a3d;
+        }
+    }
+
+    .order-layout {
+        display: grid;
+        grid-template-columns: 1fr 32rem;
+        gap: 2rem;
+        align-items: start;
+
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .catalog {
+        min-width: 0;
+    }
+
+    // Catégories
+    .categories {
+        width: 100%;
+
+        #categories-container {
+            display: flex;
+            gap: 1rem;
+            margin: 0;
+            padding: 0.5rem 0 1.5rem;
+            overflow-x: auto;
+
+            .item {
+                @include m.item(v.$border, 0.1rem, 9rem, 5rem, 1.3rem, v.$font-weight-regular);
+                flex-shrink: 0;
+                aspect-ratio: 1;
+                cursor: pointer;
+
+                &.selected {
+                    @include m.selected;
+                }
+            }
+        }
+    }
+
+    //  Articles
+    .products {
+        width: 100%;
+
+        h2 {
+            font-weight: 400;
+            font-size: 2rem;
+            margin: 0 0 1.5rem;
+        }
+
+        #products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+            gap: 1.2rem;
+            margin: 0;
+            padding: 0 0 2rem;
+
+            .item {
+                @include m.item(v.$border, 0.1rem, 11rem, 6rem, 1.3rem, v.$font-weight-regular);
+                width: 100%;
+                height: auto;
+                min-width: 0;
+                padding: 0.8rem;
+                cursor: pointer;
+
+                img {
+                    width: 6rem;
+                    height: 6rem;
+                    object-fit: contain;
+                }
+            }
+
+            .name,
+            .price {
+                display: block;
+                width: 100%;
+                margin: 0;
+                text-align: left;
+            }
+
+            .name {
+                font-size: 1.3rem;
+                font-weight: v.$font-weight-regular;
+            }
+        }
+    }
+
+    //Panier _______________________________________________________________
+    .cart {
+        position: sticky;
+        top: 0;
+        padding: 1.5rem;
+        border: 1px solid v.$text-color;
+        border-radius: 0.8rem;
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .source {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        #cart-lines {
+            margin: 1.5rem 0;
+            padding: 0;
+            list-style: none;
+            max-height: 25rem;
+            overflow-y: auto;
+        }
+
+        .cart-line {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto auto;
+            gap: 0.6rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+
+            button {
+                width: 2.4rem;
+                height: 2.4rem;
+                border: 1px solid v.$text-color;
+                border-radius: 50%;
+                background: transparent;
+                cursor: pointer;
+            }
+        }
+
+        .cart-details {
+            grid-column: 1 / -1;
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .order-total {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        #submit-button {
+            @include m.yellowButton;
+        }
+
+        .ready-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+
+}
+
+//Modale _______________________________________________________________
+#modal {
+    width: min(60rem, 90vw);
+    padding: 2rem;
+    border: none;
+    border-radius: 1.6rem;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+
+    h3 {
+        margin: 2rem 0 1rem;
+        font-size: 1.6rem;
+    }
+
+    .modal-choices {
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+
+
+        .choice {
+            @include m.item(v.$border, 0.1rem, 10rem, 5rem, 1.3rem, v.$font-weight-regular);
+            cursor: pointer;
+
+            &.selected {
+                @include m.selected;
+            }
+        }
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 2rem;
+
+        button {
+            cursor: pointer;
+            @include m.yellowButton;
+        }
+
+        .ready-button:disabled {
+            opacity: 0.4;
+        }
+    }
+}

@@ -39,6 +39,143 @@ class AdminController
             $this->section = $section;
         }
 
+        //Vérif des données
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+            header("Content-Type: application/json; charset=utf-8");
+
+            $action = $_GET["action"] ?? "";
+
+            //Modif d'un produit
+            if ($action === "update-product" && $this->section === "products") {
+
+                // Récupérer les données envoyées par le formulaire
+                $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+                $name = trim($_POST["name"] ?? "");
+                $description = trim($_POST["description"] ?? "");
+                $priceValue = $_POST["price"] ?? "";
+                $image = trim($_POST["image"] ?? "");
+                $availableValue = $_POST["is_available"] ?? "";
+
+                if (
+                    !$id
+                    || $name === ""
+                    || !is_numeric($priceValue)
+                    || (float) $priceValue < 0
+                    || $image === ""
+                    || !in_array($availableValue, ["0", "1"], true)
+                ) {
+                    http_response_code(400);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Les données du produit sont invalides"
+                    ]);
+
+                    exit;
+                }
+
+                // Envoyer les données au Model
+                $success = $this->model->updateProduct(
+                    $id,
+                    $name,
+                    $description,
+                    (float) $priceValue,
+                    $image,
+                    (int) $availableValue
+                );
+
+                if (!$success) {
+                    http_response_code(404);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Produit introuvable"
+                    ]);
+
+                    exit;
+
+                }
+
+                // Réponse envoyée au JavaScript
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Produit modifié avec succès"
+                ]);
+
+                exit;
+            }
+
+            //Modif d'un utilisateur
+            elseif ($action === "update-user" && $this->section === "users") {
+
+                // Récupérer les données envoyées par le formulaire
+                $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+                $firstname = trim($_POST["first_name"] ?? "");
+                $lastname = trim($_POST["last_name"] ?? "");
+                $role = trim($_POST["role"] ?? "");
+
+                // Vérifier les données reçues
+                if (
+                    !$id
+                    || !is_string($firstname)
+                    || $firstname === ""
+                    || mb_strlen($firstname) > 100
+                    || !is_string($lastname)
+                    || $lastname === ""
+                    || mb_strlen($lastname) > 100
+                ) {
+                    http_response_code(400);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Les informations de l'utilisateur sont invalides"
+                    ]);
+
+                    exit;
+                }
+
+                // Envoyer les données au Model
+                $success = $this->model->updateUser(
+                    $id,
+                    $firstname,
+                    $lastname,
+                    $role
+                );
+
+                if (!$success) {
+                    http_response_code(404);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Utilisateur introuvable"
+                    ]);
+
+                    exit;
+                }
+
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Utilisateur modifié avec succès"
+                ]);
+
+                exit;
+            }
+
+            // Action inconnue
+            else {
+                http_response_code(400);
+
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Action inconnue"
+                ]);
+
+                exit;
+            }
+        }
+
+
     }
 
     //Informations des screens

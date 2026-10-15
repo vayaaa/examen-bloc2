@@ -17,7 +17,6 @@ class AdminView
     {
         $user_name = $this->controller->getUserName();
         $user_role = $this->controller->getUserRole();
-
         $section = $this->controller->getSection();
         $data = $this->controller->getData();
 

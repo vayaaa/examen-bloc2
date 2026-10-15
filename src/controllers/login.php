@@ -39,9 +39,9 @@ class LoginController
         }
 
         session_regenerate_id(true); //?? 
-        $_SESSION["user_id"] = md5($user["email"]);
-        $_SESSION["first_name"] = $user["first_name"];
-        $_SESSION["role"] = $user["role"];
+     $_SESSION["user_id"] = (int) $user["id"];
+$_SESSION["first_name"] = $user["first_name"];
+$_SESSION["role"] = $user["role"];
 
         return true;
     }

@@ -1,8 +1,13 @@
 @use "base/variables" as v;
 @use 'base/mixins' as m;
 
+
 @use "admin";
 @use "header";
+@use "accueil";
+@use "prep";
+
+
 
 html {
     font-size: 62.5%;
@@ -16,8 +21,9 @@ body {
     color: v.$text-color;
 }
 
+
 .login-container {
-     overflow: hidden;
+    overflow: hidden;
     min-height: 100vh;
     background-color: v.$main-yellow;
     display: flex;
@@ -31,6 +37,7 @@ body {
         position: absolute;
         top: 6rem;
     }
+
 
     #login {
         @include m.container-center(50rem);
@@ -58,7 +65,6 @@ body {
                     align-self: flex-end
                 }
             }
-
 
             .connect-button {
                 @include m.outline-button;

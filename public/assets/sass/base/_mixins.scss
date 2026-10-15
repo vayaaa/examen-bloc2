@@ -1,7 +1,7 @@
 @use "variables" as v;
 
 
-//Container
+//Container__________________________________________________
 @mixin container-center($max-width: 600px) {
     width: min(90%, $max-width);
     margin: 0 auto;
@@ -10,10 +10,29 @@
     border-radius: 1.6rem;
 }
 
-//Écran 
-@mixin admin-screen {
+
+
+//Flex__________________________________________________
+@mixin flex-center($direction: row, $gap: 0) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: center;
+    justify-content: center;
+    gap: $gap;
+}
+
+@mixin content-flex($gap: 2rem) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $gap;
+}
+
+
+//Écran __________________________________________________
+@mixin screen {
     width: 100%;
-    height: 100%;
+    min-width: 0;
 
     h1 {
         margin: 0 0 2rem;
@@ -21,8 +40,8 @@
 
 }
 
-//Tableaux
-@mixin admin-table-container {
+//Tableaux __________________________________________________
+@mixin table-container {
     width: 100%;
     height: calc(100% - 4rem);
     overflow: auto;
@@ -30,7 +49,7 @@
     border-radius: 0.8rem;
 }
 
-@mixin admin-table {
+@mixin table {
     width: 100%;
     border-spacing: 0;
 
@@ -38,14 +57,12 @@
     td {
         padding: 1rem;
         text-align: left;
-
         border-bottom: 1px solid #eceaea;
     }
 
     th {
         font-size: 1.5rem;
         font-weight: 700;
-
         background-color: v.$main-yellow;
     }
 
@@ -55,7 +72,7 @@
 
 }
 
-//Boutons
+//Boutons__________________________________________________
 @mixin button-base {
     border: none;
     border-radius: 0.8rem;
@@ -74,4 +91,49 @@
     @include button-base;
     border: 0.1rem solid v.$border;
     background-color: v.$bg-color;
+}
+
+
+
+// Item__________________________________________________
+@mixin item($border-color: v.$main-yellow,
+    $border-size: 0.8rem,
+    $size: 18rem,
+    $image-size: 7rem,
+    $font-size: 1.6rem,
+    $font-weight: v.$font-weight-bold) {
+
+    width: $size;
+    height: $size;
+    padding: 1.6rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: $border-size solid $border-color;
+    border-radius: 0.8rem;
+    gap: 0.5rem;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: v.$bg-color;
+    cursor: pointer;
+
+
+    img {
+        width: $image-size;
+        height: $image-size;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    >p {
+        font-weight: $font-weight;
+        font-size: $font-size;
+        margin: 0;
+    }
+}
+
+@mixin selected {
+    border: 4px solid v.$main-yellow;
 }
