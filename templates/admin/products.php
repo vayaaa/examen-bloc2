@@ -96,7 +96,7 @@
 
 <!-- Modale pour la modification de produits -->
 <dialog id="modal">
-    <h2 id="modal-title">Modifier</h2>
+    <h2>Modifier</h2>
 
     <form id="product-form">
         <input type="hidden" id="product-id" name="id">

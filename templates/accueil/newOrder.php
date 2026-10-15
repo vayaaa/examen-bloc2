@@ -33,17 +33,22 @@
                     <?php /* menus*/ ?>
                     <?php foreach ($menus as $menu) { ?>
                         <button type="button" class="item" data-type="menu" data-category="menus"
-                            data-id="<?= (int) $menu["id"] ?>" data-name="<?= htmlspecialchars($menu["name"]) ?>"
-                            data-price="<?= htmlspecialchars($menu["price"]) ?>" hidden>
-                            <img src="./assets/img/products<?= htmlspecialchars($menu["image"]) ?>" alt="">
-                            <span class="name"><?= htmlspecialchars($menu["name"]) ?></span>
-                            <span class="price"><?= number_format((float) $menu["price"], 2, ",", " ") ?> €</span>
+                            data-id="<?= (int) $menu['id'] ?>"
+                            data-name="<?= htmlspecialchars($menu['name'], ENT_QUOTES, 'UTF-8') ?>"
+                            data-price="<?= htmlspecialchars($menu['price'], ENT_QUOTES, 'UTF-8') ?>" 
+                            data-options="<?= htmlspecialchars($menu['options'] ?? '[]',ENT_QUOTES,'UTF-8') ?>">
+                            <img src="./assets/img/products<?= htmlspecialchars($menu['image']) ?>" alt="">
+                            <span class="name"><?= htmlspecialchars($menu['name']) ?></span>
+                            <span class="price">
+                                <?= number_format((float) $menu['price'], 2, ',', ' ') ?> €
+                            </span>
                         </button>
                     <?php } ?>
 
                     <?php /* produits*/ ?>
                     <?php foreach ($products as $categoryName => $items) { ?>
                         <?php foreach ($items as $product) { ?>
+
                             <button type="button" class="item" data-type="product"
                                 data-category="<?= htmlspecialchars($categoryName) ?>" data-id="<?= (int) $product["id"] ?>"
                                 data-name="<?= htmlspecialchars($product["name"]) ?>"
@@ -109,7 +114,5 @@
     </div>
 </dialog>
 
-
-<script src="./assets/js/newOrder.js"></script>
 
 <script src="./assets/js/newOrder.js"></script>

@@ -172,13 +172,20 @@ function renderCart() {
 // Modale_______________________________________________________________
 let currentMenu = null;
 
-function fillChoices(container, categoryName, choiceKey) {
+function fillChoices(container, categoryName, choiceKey, allowedOptions) {
     container.innerHTML = "";
 
     // Les cartes du catalogue en fonction de leur data-category
-    const cards = document.querySelectorAll('#products-container .item[data-category="' + categoryName + '"]');
-
+    const cards = document.querySelectorAll(
+        '#products-container .item[data-type="product"][data-category="' + categoryName + '"]'
+    );
     for (const card of cards) {
+
+        // // Ne pas afficher un produit qui n'est pas associé au menu
+        if (!allowedOptions.includes(Number(card.dataset.id))) {
+            continue;
+        }
+
         const button = document.createElement("button");
         button.type = "button";
         button.className = "choice";
@@ -188,7 +195,7 @@ function fillChoices(container, categoryName, choiceKey) {
         image.alt = "";
 
         const label = document.createElement("span");
-        label.textContent = card.dataset.name; 
+        label.textContent = card.dataset.name;
 
         button.append(image, label);
 
@@ -218,22 +225,37 @@ function fillChoices(container, categoryName, choiceKey) {
 
 // Ouvre la modale pour un menu
 function openMenuModal(card) {
+    console.log("Menu :", card.dataset.name);
+    console.log("Options reçues :", card.dataset.options);
+    
+    // Récupérer les options enregistrées pour ce menu.
+    let allowedOptions = [];
+    try {
+        const options = JSON.parse(card.dataset.options || "[]");
+
+        if (Array.isArray(options)) {
+            allowedOptions = options.map(Number);
+        }
+    } catch (error) {
+        console.error("Impossible de lire les options du menu :", error);
+    }
+
     currentMenu = {
         id: card.dataset.id,
         name: card.dataset.name,
-        price: parseFloat(card.dataset.price), 
+        price: parseFloat(card.dataset.price),
         side: null,
         drink: null,
     };
 
     modalTitle.textContent = card.dataset.name;
 
-    fillChoices(sideChoices, SIDE_CATEGORY, "side");
-    fillChoices(drinkChoices, DRINK_CATEGORY, "drink");
+    fillChoices(sideChoices, SIDE_CATEGORY, "side", allowedOptions);
+    fillChoices(drinkChoices, DRINK_CATEGORY, "drink", allowedOptions);
 
-    addModalButton.disabled = true; 
+    addModalButton.disabled = true;
 
-    modal.showModal(); 
+    modal.showModal();
 }
 
 

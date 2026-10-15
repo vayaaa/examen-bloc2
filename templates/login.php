@@ -35,23 +35,13 @@
                 <div class="form-group">
                     <label for="inputPassword">Mot de passe</label>
                     <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required />
-                    <a class="reset-password" href="./reset-password">mot de passe oublié?</a>
-
                 </div>
 
-
                 <input class="connect-button" type="submit" value="Se connecter" />
-
             </form>
-
         </section>
-
-
-
-
-
+        
     </main>
-
 
 </body>
 

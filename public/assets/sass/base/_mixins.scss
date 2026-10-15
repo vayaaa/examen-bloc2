@@ -11,6 +11,14 @@
 }
 
 
+@mixin container-screen {
+    display: flex;
+    margin: 2rem;
+    height: calc(100vh - 8rem - 4rem);
+    border: 1px solid black;
+}
+
+
 
 //Flex__________________________________________________
 @mixin flex-center($direction: row, $gap: 0) {
@@ -31,14 +39,40 @@
 
 //Écran __________________________________________________
 @mixin screen {
-    width: 100%;
+    flex: 1;
+    padding: 1.5rem;
     min-width: 0;
+    min-height: 0;
+    overflow-y: auto;
+}
 
-    h1 {
-        margin: 0 0 2rem;
+//Menu latéral_______________________________________________
+@mixin sidebar {
+    width: 15rem;
+    flex-shrink: 0;
+    background-color: #cac8c8;
+    border-right: 1px solid black;
+
+    ul {
+        margin: 0;
+        padding: 2rem 1rem;
+        list-style: none;
     }
 
+    .elements {
+        border: none;
+        background: transparent;
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: v.$text-color;
+        text-decoration: none;
+
+        &.selected {
+            font-weight: 700;
+        }
+    }
 }
+
 
 //Tableaux __________________________________________________
 @mixin table-container {
@@ -136,4 +170,108 @@
 
 @mixin selected {
     border: 4px solid v.$main-yellow;
+}
+
+//Modale____________________________________________________________
+@mixin modal-base {
+    width: min(60rem, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+
+    padding: 2rem;
+    border: none;
+    border-radius: 1.6rem;
+
+    &::backdrop {
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    label {
+        font-weight: v.$font-weight-regular;
+        margin-top: 0.5rem;
+    }
+
+    input,
+    textarea,
+    select {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.8rem 1rem;
+        border: 0.1rem solid v.$border;
+        border-radius: 0.6rem;
+        font: inherit;
+        background: white;
+        color: black;
+
+        &:focus {
+            outline: 0.15rem solid v.$border;
+            outline-offset: 0.1rem;
+        }
+    }
+
+    textarea {
+        min-height: 8rem;
+        resize: vertical;
+    }
+
+    .modal-actions {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-top: 2rem;
+
+        button {
+            cursor: pointer;
+            @include yellowButton;
+        }
+
+        .cancel-button {
+            background: transparent;
+            border: 0.1rem solid v.$border;
+        }
+    }
+}
+
+//Mobile_____________________________________________________________
+@mixin mobile {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 8rem);
+    margin: 1rem;
+
+    #menu {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid black;
+
+        ul {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            padding: 1rem;
+        }
+
+        .elements {
+            font-size: 1.5rem;
+        }
+    }
+
+    #screen {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.5rem;
+        overflow-y: visible;
+    }
 }

@@ -89,7 +89,7 @@ class AccueilModel
     }
 
 
-      //Changement de status (préparée -> livrée)
+    //Changement de status (préparée -> livrée)
     public function deliverOrder(int $orderId): void
     {
         $status_sql = "UPDATE orders 
@@ -153,7 +153,7 @@ class AccueilModel
         return $grouped;
     }
 
-    //Récupérer tous les menus disponibles
+    //Récupérer tous les menus disponibles + options
     public function getMenus(): array
     {
         $sql = "SELECT id, name, price, image
@@ -161,18 +161,37 @@ class AccueilModel
         WHERE is_available = 1
         ORDER BY name";
 
-        return $this->db->query($sql)->fetchAll();
+
+        $query = $this->db->prepare($sql);
+        $query->execute();
+        $menus = $query->fetchAll(PDO::FETCH_ASSOC);
+
+        // Récupérer les produits associés à chaque menu
+        $optionsSql = "SELECT product_id
+                   FROM menu_products
+                   WHERE menu_id = :menu_id";
+
+        $queryOptions = $this->db->prepare($optionsSql);
+
+        foreach ($menus as $key => $menu) {
+            $queryOptions->execute([
+                ":menu_id" => $menu["id"]
+            ]);
+
+            $options = $queryOptions->fetchAll(PDO::FETCH_COLUMN);
+
+            $menus[$key]["options"] = json_encode(
+                array_map("intval", $options)
+            );
+        }
+
+        return $menus;
     }
 
 
 
-
-    // ---------- Petite méthode 1 : chercher UN produit ----------
-    // "private" = utilisable seulement dans cette classe.
-    // "array|false" = elle renvoie le produit (un tableau), ou false s'il n'existe pas.
     private function findProduct(int $id): array|false
     {
-        // On récupère aussi le nom de la catégorie : on s'en servira pour vérifier les frites et les boissons.
         $sql = "SELECT products.id, products.name, products.price, categories.name AS category
                 FROM products
                 JOIN categories ON products.category_id = categories.id
@@ -183,12 +202,9 @@ class AccueilModel
         $query->bindValue(":id", $id);
         $query->execute();
 
-        // fetch() = UNE ligne. Si aucune ligne ne correspond, il renvoie false.
         return $query->fetch();
     }
 
-
-    // ---------- Petite méthode 2 : chercher UN menu ----------
     private function findMenu(int $id): array|false
     {
         $sql = "SELECT id, name, price
@@ -203,58 +219,49 @@ class AccueilModel
         return $query->fetch();
     }
 
-
-    // ---------- Petite méthode 3 : préparer les lignes de la commande ----------
-    // Elle vérifie tout, calcule le total, puis demande à la méthode 4 d'enregistrer.
-    // $products  : [12 => 2, 15 => 1]  (id du produit => quantité)
-    // $menuLines : [ ["id" => 3, "quantity" => 1, "side" => 36, "drink" => 27], ... ]
     public function newOrder(int $userId, string $source, string $deliveryTime, array $products, array $menuLines): string
     {
-        $lines = [];  // la liste des lignes de la commande (vide au départ)
-        $total = 0;   // le total (0 au départ)
+        $lines = [];
+        $total = 0;
 
-        // ----- Les produits -----
-        // $id = l'id du produit, $quantity = la quantité demandée
+
         foreach ($products as $id => $quantity) {
 
-            $quantity = (int) $quantity; // (int) = on force un nombre entier
+            $quantity = (int) $quantity;
 
             if ($quantity <= 0) {
-                continue; // quantité 0 : on passe au produit suivant
+                continue;
             }
 
             if ($quantity > 20) {
                 throw new InvalidArgumentException("Quantité maximum : 20 par article.");
             }
 
-            // On va chercher le produit dans la base : on ne fait pas confiance au formulaire
             $product = $this->findProduct((int) $id);
 
             if ($product === false) {
                 throw new InvalidArgumentException("Produit introuvable ou indisponible.");
             }
 
-            // [] = AJOUTE une ligne à la fin de la liste
+
             $lines[] = [
                 "product_id" => $product["id"],
                 "menu_id" => null,
                 "name" => $product["name"],
                 "quantity" => $quantity,
-                "price" => $product["price"],  // le prix vient de la base
+                "price" => $product["price"],
             ];
 
             $total = $total + $quantity * $product["price"];
         }
 
-        // ----- Les menus -----
+
         foreach ($menuLines as $menuLine) {
 
-            // Une ligne de menu doit être un tableau (id, quantity, side, drink)
             if (!is_array($menuLine)) {
                 throw new InvalidArgumentException("Commande invalide.");
             }
 
-            // "?? 0" = si la valeur n'existe pas, on prend 0
             $quantity = (int) ($menuLine["quantity"] ?? 0);
 
             if ($quantity <= 0) {
@@ -271,20 +278,17 @@ class AccueilModel
                 throw new InvalidArgumentException("Menu introuvable ou indisponible.");
             }
 
-            // La frite et la boisson choisies : on les cherche dans la base aussi
             $side = $this->findProduct((int) ($menuLine["side"] ?? 0));
             $drink = $this->findProduct((int) ($menuLine["drink"] ?? 0));
 
-            // Vérification : la frite existe ET est dans "frites", la boisson existe ET est dans "boissons"
-            // || veut dire "ou" : si UNE seule de ces conditions est vraie, il y a un problème.
+
             if ($side === false || $side["category"] !== "frites" || $drink === false || $drink["category"] !== "boissons") {
-                throw new InvalidArgumentException("Choisissez une frite et une boisson pour chaque menu.");
+                throw new InvalidArgumentException("Choisissez un accompagnement et une boisson");
             }
 
             $lines[] = [
                 "product_id" => null,
                 "menu_id" => $menu["id"],
-                // Le "." colle des textes ensemble : "Menu Big Mac (Grande Frite, Coca Cola)"
                 "name" => $menu["name"] . " (" . $side["name"] . ", " . $drink["name"] . ")",
                 "quantity" => $quantity,
                 "price" => $menu["price"],
@@ -293,55 +297,46 @@ class AccueilModel
             $total = $total + $quantity * $menu["price"];
         }
 
-        // ----- Une commande vide n'est pas une commande -----
         if (empty($lines)) {
             throw new InvalidArgumentException("Sélectionnez au moins un article.");
         }
 
-        // Tout est bon : on enregistre (méthode 4) et on renvoie le numéro de ticket
         return $this->saveOrder($userId, $source, $deliveryTime, $lines, $total);
     }
 
 
-    // ---------- Petite méthode 4 : enregistrer dans la base ----------
     private function saveOrder(int $userId, string $source, string $deliveryTime, array $lines, float $total): string
     {
-        // Transaction = "tout ou rien" : on ne veut jamais une commande sans ses lignes.
         $this->db->beginTransaction();
 
-        // try = "essaie". Si une erreur arrive, PHP saute dans catch.
         try {
-            // 1. On crée la commande avec un ticket provisoire (le vrai ticket a besoin de l'id)
             $sql = "INSERT INTO orders (user_id, ticket_number, source, status, order_date, delivery_time, total_price)
                     VALUES (:user_id, :ticket, :source, 'to_prepare', NOW(), :delivery_time, :total)";
 
             $query = $this->db->prepare($sql);
             $query->execute([
                 "user_id" => $userId,
-                "ticket" => uniqid("TMP"),   // texte unique, par exemple TMP6710a3f2
+                "ticket" => uniqid("TMP"),
                 "source" => $source,
                 "delivery_time" => $deliveryTime,
-                "total" => round($total, 2), // 2 chiffres après la virgule
+                "total" => round($total, 2),
             ]);
 
-            // 2. lastInsertId() = l'id que MySQL vient de donner à la commande
             $orderId = (int) $this->db->lastInsertId();
 
-            // 3. Le vrai numéro de ticket : T pour téléphone, C pour comptoir
             $prefix = "C";
 
             if ($source === "telephone") {
                 $prefix = "T";
             }
 
-            $ticket = $prefix . (100 + $orderId); // par exemple C108
+            $ticket = $prefix . (100 + $orderId);
 
             $sql = "UPDATE orders SET ticket_number = :ticket WHERE id = :id";
 
             $query = $this->db->prepare($sql);
             $query->execute(["ticket" => $ticket, "id" => $orderId]);
 
-            // 4. On enregistre chaque ligne de la commande
             $sql = "INSERT INTO order_items (order_id, product_id, menu_id, name, quantity, price)
                     VALUES (:order_id, :product_id, :menu_id, :name, :quantity, :price)";
 
@@ -358,16 +353,13 @@ class AccueilModel
                 ]);
             }
 
-            // 5. Tout s'est bien passé : on valide
             $this->db->commit();
 
             return $ticket;
 
         } catch (Exception $e) {
-            // Une erreur : on annule TOUT, comme si rien n'avait été fait
             $this->db->rollBack();
 
-            // throw = on transmet l'erreur au contrôleur
             throw $e;
         }
     }

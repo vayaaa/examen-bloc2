@@ -3,6 +3,7 @@
   margin: 2rem;
   height: calc(100vh - 8rem - 4rem);
   border: 1px solid black;
+  overflow: hidden;
 }
 .admin-container #menu {
   width: 15rem;
@@ -28,7 +29,7 @@
 }
 .admin-container #screen {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
@@ -83,14 +84,11 @@
 #menus,
 #users,
 #orders {
-  width: 100%;
+  flex: 1;
+  padding: 1.5rem;
   min-width: 0;
-}
-#products h1,
-#menus h1,
-#users h1,
-#orders h1 {
-  margin: 0 0 2rem;
+  min-height: 0;
+  overflow-y: auto;
 }
 #products .table-container,
 #menus .table-container,
@@ -204,6 +202,17 @@
   object-fit: cover;
   border-radius: 0.5rem;
 }
+#menus .table-container table td .modifier {
+  background-color: transparent;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+#menus .table-container table td .modifier:hover {
+  width: 2.5rem;
+  height: 2.5rem;
+}
 
 #users .table-container table td .modifier {
   background-color: transparent;
@@ -217,7 +226,9 @@
   height: 2.5rem;
 }
 
-#user-modal {
+#user-modal,
+#modal,
+#menu-modal {
   width: min(60rem, 90vw);
   max-height: 85vh;
   overflow-y: auto;
@@ -225,25 +236,39 @@
   border: none;
   border-radius: 1.6rem;
 }
-#user-modal::backdrop {
+#user-modal::backdrop,
+#modal::backdrop,
+#menu-modal::backdrop {
   background: rgba(0, 0, 0, 0.5);
 }
-#user-modal h2 {
+#user-modal h2,
+#modal h2,
+#menu-modal h2 {
   margin-top: 0;
   margin-bottom: 2rem;
 }
-#user-modal #user-form {
+#user-modal form,
+#modal form,
+#menu-modal form {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
 }
-#user-modal label {
+#user-modal label,
+#modal label,
+#menu-modal label {
   font-weight: 400;
   margin-top: 0.5rem;
 }
 #user-modal input,
 #user-modal textarea,
-#user-modal select {
+#user-modal select,
+#modal input,
+#modal textarea,
+#modal select,
+#menu-modal input,
+#menu-modal textarea,
+#menu-modal select {
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem 1rem;
@@ -255,22 +280,34 @@
 }
 #user-modal input:focus,
 #user-modal textarea:focus,
-#user-modal select:focus {
+#user-modal select:focus,
+#modal input:focus,
+#modal textarea:focus,
+#modal select:focus,
+#menu-modal input:focus,
+#menu-modal textarea:focus,
+#menu-modal select:focus {
   outline: 0.15rem solid #6E6E6E;
   outline-offset: 0.1rem;
 }
-#user-modal textarea {
+#user-modal textarea,
+#modal textarea,
+#menu-modal textarea {
   min-height: 8rem;
   resize: vertical;
 }
-#user-modal .modal-actions {
+#user-modal .modal-actions,
+#modal .modal-actions,
+#menu-modal .modal-actions {
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 1rem;
   margin-top: 2rem;
 }
-#user-modal .modal-actions button {
+#user-modal .modal-actions button,
+#modal .modal-actions button,
+#menu-modal .modal-actions button {
   cursor: pointer;
   border: none;
   border-radius: 0.8rem;
@@ -280,11 +317,41 @@
   cursor: pointer;
   background-color: #FFC836;
 }
-#user-modal .modal-actions #cancel-user-modal {
+#user-modal .modal-actions .cancel-button,
+#modal .modal-actions .cancel-button,
+#menu-modal .modal-actions .cancel-button {
   background: transparent;
   border: 0.1rem solid #6E6E6E;
 }
 
+@media (max-width: 768px) {
+  .admin-container {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 8rem);
+    margin: 1rem;
+  }
+  .admin-container #menu {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid black;
+  }
+  .admin-container #menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+  .admin-container #menu .elements {
+    font-size: 1.5rem;
+  }
+  .admin-container #screen {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    overflow-y: visible;
+  }
+}
 header {
   width: 100%;
   min-height: 5rem;
@@ -331,11 +398,11 @@ header nav ul li .button {
 }
 
 .accueil-container {
-  overflow: hidden;
   display: flex;
   margin: 2rem;
   height: calc(100vh - 8rem - 4rem);
   border: 1px solid black;
+  overflow: hidden;
 }
 .accueil-container #menu {
   width: 15rem;
@@ -381,18 +448,18 @@ header nav ul li .button {
 }
 .accueil-container #screen {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
 }
 
 #prepared {
-  width: 100%;
+  flex: 1;
+  padding: 1.5rem;
   min-width: 0;
-}
-#prepared h1 {
-  margin: 0 0 2rem;
+  min-height: 0;
+  overflow-y: auto;
 }
 #prepared .table-container {
   width: 100%;
@@ -728,12 +795,40 @@ header nav ul li .button {
   opacity: 0.4;
 }
 
+@media (max-width: 768px) {
+  .accueil-container {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 8rem);
+    margin: 1rem;
+  }
+  .accueil-container #menu {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid black;
+  }
+  .accueil-container #menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+  .accueil-container #menu .elements {
+    font-size: 1.5rem;
+  }
+  .accueil-container #screen {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    overflow-y: visible;
+  }
+}
 .prep-container {
-  overflow: hidden;
   display: flex;
   margin: 2rem;
   height: calc(100vh - 8rem - 4rem);
   border: 1px solid black;
+  overflow: hidden;
 }
 .prep-container #menu {
   width: 15rem;
@@ -759,10 +854,10 @@ header nav ul li .button {
 }
 .prep-container #screen {
   flex: 1;
-  padding: 2rem;
+  padding: 1.5rem;
   min-width: 0;
   min-height: 0;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 #dashboard h1 {
@@ -813,13 +908,11 @@ header nav ul li .button {
 #toprepare,
 #prepared,
 #delivered {
-  width: 100%;
+  flex: 1;
+  padding: 1.5rem;
   min-width: 0;
-}
-#toprepare h1,
-#prepared h1,
-#delivered h1 {
-  margin: 0 0 2rem;
+  min-height: 0;
+  overflow-y: auto;
 }
 #toprepare .table-container,
 #prepared .table-container,
@@ -829,6 +922,7 @@ header nav ul li .button {
   overflow: auto;
   border: 1px solid #292929;
   border-radius: 0.8rem;
+  overflow-y: auto;
 }
 #toprepare .table-container table,
 #prepared .table-container table,
@@ -888,6 +982,34 @@ header nav ul li .button {
   background-color: #FFC836;
 }
 
+@media (max-width: 768px) {
+  .prep-container {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 8rem);
+    margin: 1rem;
+  }
+  .prep-container #menu {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid black;
+  }
+  .prep-container #menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    padding: 1rem;
+  }
+  .prep-container #menu .elements {
+    font-size: 1.5rem;
+  }
+  .prep-container #screen {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    overflow-y: visible;
+  }
+}
 html {
   font-size: 62.5%;
 }

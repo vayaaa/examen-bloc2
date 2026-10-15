@@ -97,7 +97,7 @@ class AdminController
 
                 }
 
-                // Réponse envoyée au JavaScript
+
                 echo json_encode([
                     "success" => true,
                     "message" => "Produit modifié avec succès"
@@ -105,6 +105,99 @@ class AdminController
 
                 exit;
             }
+
+            //Modif d'un menu
+            if ($action === "update-menu" && $this->section === "menus") {
+
+                // Récupérer les données envoyées par le formulaire
+                $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
+                $name = trim($_POST["name"] ?? "");
+                $description = trim($_POST["description"] ?? "");
+                $priceValue = $_POST["price"] ?? "";
+                $image = trim($_POST["image"] ?? "");
+                $availableValue = $_POST["is_available"] ?? "";
+
+                // Récupérer les options cochées.
+                $options = $_POST["options"] ?? [];
+
+                // Vérifier que les options reçues sont bien des identifiants.
+                if (!is_array($options)) {
+                    $options = [];
+                }
+                $validOptions = [];
+
+                foreach ($options as $optionId) {
+                    $optionId = filter_var(
+                        $optionId,
+                        FILTER_VALIDATE_INT
+                    );
+
+                    if ($optionId === false || $optionId <= 0) {
+                        http_response_code(400);
+
+                        echo json_encode([
+                            "success" => false,
+                            "message" => "Une option est invalide."
+                        ]);
+
+                        exit;
+                    }
+
+                    // Éviter d'enregistrer plusieurs fois la même option.
+                    $validOptions[] = $optionId;
+                }
+
+                $options = array_values(array_unique($validOptions));
+
+                if (
+                    !$id
+                    || $name === ""
+                    || !is_numeric($priceValue)
+                    || (float) $priceValue < 0
+                    || $image === ""
+                    || !in_array($availableValue, ["0", "1"], true)
+                ) {
+                    http_response_code(400);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Les données du menu sont invalides"
+                    ]);
+
+                    exit;
+                }
+
+                // Envoyer les données au Model
+                $success = $this->model->updateMenu(
+                    $id,
+                    $name,
+                    $description,
+                    (float) $priceValue,
+                    $image,
+                    (int) $availableValue,
+                    $options
+                );
+
+                if (!$success) {
+                    http_response_code(404);
+
+                    echo json_encode([
+                        "success" => false,
+                        "message" => "Produit introuvable"
+                    ]);
+
+                    exit;
+
+                }
+
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Produit modifié avec succès"
+                ]);
+
+                exit;
+            }
+
 
             //Modif d'un utilisateur
             elseif ($action === "update-user" && $this->section === "users") {
@@ -183,6 +276,14 @@ class AdminController
     {
         return $this->section;
     }
+
+
+ // Récupérer les options dans la modale des menus.
+    public function getAvailableProducts(): array
+    {
+        return $this->model->getAvailableProducts();
+    }
+
 
     public function getData(): array
     {

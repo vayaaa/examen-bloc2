@@ -42,7 +42,7 @@
 
 <!-- Modale pour la modification des utilisateurs -->
 <dialog id="user-modal">
-    <h2 id="modal-title">Modifier</h2>
+    <h2>Modifier</h2>
 
     <form id="user-form">
         <input type="hidden" id="user-id" name="id">

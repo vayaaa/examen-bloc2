@@ -2,36 +2,11 @@
 @use "base/mixins" as m;
 
 .accueil-container {
+    @include m.container-screen;
     overflow: hidden;
-    display: flex;
-    margin: 2rem;
-    height: calc(100vh - 8rem - 4rem);
-    border: 1px solid black;
 
     #menu {
-        width: 15rem;
-        flex-shrink: 0;
-        background-color: #cac8c8;
-        border-right: 1px solid black;
-
-        ul {
-            margin: 0;
-            padding: 2rem 1rem;
-            list-style: none;
-        }
-
-        .elements {
-            border: none;
-            background: transparent;
-            font-size: 1.6rem;
-            cursor: pointer;
-            color: v.$text-color;
-            text-decoration: none;
-
-            &.selected {
-                font-weight: 700;
-            }
-        }
+        @include m.sidebar;
 
         .elementsNew {
             border: none;
@@ -59,11 +34,7 @@
     }
 
     #screen {
-        flex: 1;
-        padding: 2rem;
-        min-width: 0;
-        min-height: 0;
-        overflow-y: auto;
+        @include m.screen;
     }
 }
 
@@ -282,6 +253,8 @@
 
 }
 
+
+
 //Modale _______________________________________________________________
 #modal {
     width: min(60rem, 90vw);
@@ -332,5 +305,13 @@
         .ready-button:disabled {
             opacity: 0.4;
         }
+    }
+}
+
+
+//Mobile_____________________________________________________________
+@media (max-width: 768px) {
+    .accueil-container {
+        @include m.mobile;
     }
 }

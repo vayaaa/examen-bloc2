@@ -98,4 +98,3 @@ FOREIGN KEY(order_id)REFERENCES orders(id) ON DELETE CASCADE,
 FOREIGN KEY(product_id)REFERENCES products(id),
 FOREIGN KEY (menu_id) REFERENCES menus(id)
 );
-

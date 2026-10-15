@@ -1,5 +1,7 @@
 #Fichiers secrets
 .env
+.env.*
+!.env.example
 
 # Configuration de vsc
 .vscode/

@@ -1,6 +1,6 @@
 # Back-office de Wacdo
 
-L'objectif de ce projet est de développer l'interface d'administration de l'application Wacdo, un fast-food fictif. Cett interface gère l'ensemble des données de l'applications, des utilisateurs, des produit et des commandes. 
+L'objectif de ce projet est de développer l'interface d'administration de l'application Wacdo, un fast-food fictif. Cett interface gère l'ensemble des données de l'applications, des utilisateurs, des produits et des commandes. 
 
 
 ## Technologies utilisées
@@ -12,21 +12,22 @@ L'objectif de ce projet est de développer l'interface d'administration de l'app
 
 
 ## Fonctionnalités principales
+
 - [x] **Compte Administration**
-    - gestion des utilisateurs et leur rôles
-    - gestion des produits et de leur disponibilité
-    - gestion des menus et de leurs options
+    - [x] gestion des utilisateurs et leur rôles
+    - [x] gestion des produits et de leur disponibilité
+    - [x] gestion des menus et de leurs options
 
 - [x] **Compte Préparation**
-    - voir les commandes à préparer
-    - afficher le détail des commandes
-    - valider les commandes préparées
-    - suivi de l'état des commandes
+    - [x] voir les commandes à préparer
+    - [x] afficher le détail des commandes
+    - [x] valider les commandes préparées
+    - [x] suivi de l'état des commandes
 
 - [x] **Compte Accueil**
-    - saisie des commandes au comptoir ou par téléphone
-    - Consultation des commandes
-    - Remise des commandes aux clients
+    - [x] saisie des commandes au comptoir ou par téléphone
+    - [x] consultation des commandes prêtes
+    - [x] remise des commandes aux clients
 
 
 ## Comptes de démonstration

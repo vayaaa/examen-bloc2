@@ -19,7 +19,10 @@ class AdminView
         $user_role = $this->controller->getUserRole();
         $section = $this->controller->getSection();
         $data = $this->controller->getData();
-
+    
+        if ($section === "menus") {
+            $availableProducts = $this->controller->getAvailableProducts();
+        }
         require($this->template);
 
     }
