@@ -2,13 +2,13 @@
 
 class AccueilModel
 {
-
     private PDO $db;
 
     public function __construct(PDO $db)
     {
         $this->db = $db;
     }
+
 
 
     //Récupérer les infos de l'utilisateur connecté
@@ -33,7 +33,6 @@ class AccueilModel
     public function getStats(): array
     {
         $stats = [];
-
         $stats["prepared"] = $this->db->query("SELECT COUNT(*) FROM orders WHERE status = 'prepared'")->fetchColumn();
 
         return $stats;
@@ -105,7 +104,7 @@ class AccueilModel
 
 
 
-    // Les catégories, dans l'ordre de la borne (menus, boissons, burgers...)
+    // Les catégories
     public function getCategories(): array
     {
         $category_sql = "SELECT name, image 
@@ -115,11 +114,10 @@ class AccueilModel
         $query = $this->db->prepare($category_sql);
         $query->execute();
 
-        // Récupère tous les produits 
         $category = $query->fetchAll();
 
+        //Correction lien image
         foreach ($category as $key) {
-            //Correction lien image
             $key["image"] = str_replace(".png.png", ".png", $key["image"]);
             $key["image"] = str_replace(".jpg.png", ".png", $key["image"]);
         }
@@ -143,8 +141,8 @@ class AccueilModel
         // Chaque produit dans la liste de sa catégorie
         $grouped = [];
 
+
         foreach ($rows as $row) {
-            //Correction lien image
             $row["image"] = str_replace(".png.png", ".png", $row["image"]);
             $row["image"] = str_replace(".jpg.png", ".png", $row["image"]);
 
@@ -152,6 +150,7 @@ class AccueilModel
         }
         return $grouped;
     }
+
 
     //Récupérer tous les menus disponibles + options
     public function getMenus(): array
@@ -189,7 +188,7 @@ class AccueilModel
     }
 
 
-
+    //Trouver un produit
     private function findProduct(int $id): array|false
     {
         $sql = "SELECT products.id, products.name, products.price, categories.name AS category
@@ -205,6 +204,7 @@ class AccueilModel
         return $query->fetch();
     }
 
+    //Trouver un menu
     private function findMenu(int $id): array|false
     {
         $sql = "SELECT id, name, price
@@ -219,12 +219,14 @@ class AccueilModel
         return $query->fetch();
     }
 
+
+    //Nouvelle commande
     public function newOrder(int $userId, string $source, string $deliveryTime, array $products, array $menuLines): string
     {
         $lines = [];
         $total = 0;
 
-
+        //Produits
         foreach ($products as $id => $quantity) {
 
             $quantity = (int) $quantity;
@@ -255,7 +257,7 @@ class AccueilModel
             $total = $total + $quantity * $product["price"];
         }
 
-
+        //menus
         foreach ($menuLines as $menuLine) {
 
             if (!is_array($menuLine)) {
@@ -305,6 +307,8 @@ class AccueilModel
     }
 
 
+    
+    //Enregistrer la commande
     private function saveOrder(int $userId, string $source, string $deliveryTime, array $lines, float $total): string
     {
         $this->db->beginTransaction();

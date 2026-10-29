@@ -37,7 +37,7 @@
                             <form method="post" action="index.php?page=prep&amp;section=toprepare">
                                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
                                 <input type="hidden" name="order_id" value="<?= (int) $order["id"] ?>">
-                                
+
                                 <button class="submit-button" type="submit">Commande prête</button>
                             </form>
                         </td>

@@ -6,7 +6,7 @@
         <li class="card">
             <a href="index.php?page=accueil&amp;section=prepared">
                 <h4>Préparées</h4>
-                <p><?=  (int) $stats["prepared"] ?></p>
+                <p><?= (int) $stats["prepared"] ?></p>
             </a>
         </li>
 

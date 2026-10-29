@@ -2,9 +2,11 @@
 
 class AdminController
 {
+
     private AdminModel $model;
     private string $section = "dashboard";
     private array $sections = ["dashboard", "products", "menus", "users", "orders"];
+
 
     public function __construct(AdminModel $model)
     {
@@ -75,7 +77,6 @@ class AdminController
                     exit;
                 }
 
-                // Envoyer les données au Model
                 $success = $this->model->updateProduct(
                     $id,
                     $name,
@@ -94,9 +95,7 @@ class AdminController
                     ]);
 
                     exit;
-
                 }
-
 
                 echo json_encode([
                     "success" => true,
@@ -117,13 +116,15 @@ class AdminController
                 $image = trim($_POST["image"] ?? "");
                 $availableValue = $_POST["is_available"] ?? "";
 
-                // Récupérer les options cochées.
+                // Récupérer les options cochées
                 $options = $_POST["options"] ?? [];
 
-                // Vérifier que les options reçues sont bien des identifiants.
+                // Options sous forme de tableaux
                 if (!is_array($options)) {
                     $options = [];
                 }
+
+                // Vérifier que chaque option possède un identifiant valide
                 $validOptions = [];
 
                 foreach ($options as $optionId) {
@@ -143,7 +144,7 @@ class AdminController
                         exit;
                     }
 
-                    // Éviter d'enregistrer plusieurs fois la même option.
+                    // Éviter d'enregistrer plusieurs fois la même option
                     $validOptions[] = $optionId;
                 }
 
@@ -183,7 +184,7 @@ class AdminController
 
                     echo json_encode([
                         "success" => false,
-                        "message" => "Produit introuvable"
+                        "message" => "Menu introuvable"
                     ]);
 
                     exit;
@@ -192,7 +193,7 @@ class AdminController
 
                 echo json_encode([
                     "success" => true,
-                    "message" => "Produit modifié avec succès"
+                    "message" => "Menu modifié avec succès"
                 ]);
 
                 exit;
@@ -267,8 +268,6 @@ class AdminController
                 exit;
             }
         }
-
-
     }
 
     //Informations des screens
@@ -278,7 +277,7 @@ class AdminController
     }
 
 
- // Récupérer les options dans la modale des menus.
+ // Récupérer les options dans la modale des menus
     public function getAvailableProducts(): array
     {
         return $this->model->getAvailableProducts();

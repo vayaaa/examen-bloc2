@@ -29,7 +29,6 @@ is_available TINYINT(1) NOT NULL DEFAULT 1
 
 
 -- tables dépendantes
-
 CREATE TABLE IF NOT EXISTS users (
 id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 role_id INT UNSIGNED NOT NULL,
@@ -66,7 +65,6 @@ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 
 
 -- tables de liaison
-
 CREATE TABLE IF NOT EXISTS product_options(
     product_id INT UNSIGNED NOT NULL,
     option_id INT UNSIGNED NOT NULL,

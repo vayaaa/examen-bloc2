@@ -12,6 +12,7 @@ class PrepController
         $this->model = $model;
     }
 
+
     //Information de l'utilisateur qui se connecte
     public function getUsername(): string
     {
@@ -60,7 +61,7 @@ class PrepController
         return $this->section;
     }
 
-
+    //récupérer les commandes selon la section select
     public function getOrders(): array
     {
         if ($this->section === "dashboard") {
@@ -79,6 +80,7 @@ class PrepController
 
         return $this->model->getOrders($status);
     }
+
     // Les compteurs du tableau de bord
     public function getStats(): array
     {

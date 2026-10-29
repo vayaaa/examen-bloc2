@@ -11,6 +11,8 @@ class AccueilView
         $this->template = DIR_TEMPLATES . "accueil.php";
     }
 
+
+    
     public function render()
     {
         $user_name = $this->controller->getUserName();

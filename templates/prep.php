@@ -21,29 +21,27 @@
             <ul>
                 <li>
                     <a class="elements <?= $section === 'dashboard' ? 'selected' : '' ?>"
-                       href="index.php?page=prep&amp;section=dashboard"> Tableau de bord </a>
+                        href="index.php?page=prep&amp;section=dashboard"> Tableau de bord </a>
                 </li>
                 <li>
                     <a class="elements <?= $section === 'toprepare' ? 'selected' : '' ?>"
                         href="index.php?page=prep&amp;section=toprepare">À préparer</a>
                 </li>
-                 <li>
+                <li>
                     <a class="elements <?= $section === 'prepared' ? 'selected' : '' ?>"
                         href="index.php?page=prep&amp;section=prepared">Prêtes</a>
                 </li>
-                 <li>
+                <li>
                     <a class="elements <?= $section === 'delivered' ? 'selected' : '' ?>"
                         href="index.php?page=prep&amp;section=delivered">Livrées</a>
                 </li>
-
             </ul>
         </section>
 
         <section id="screen">
             <?php include(DIR_TEMPLATES . "preparation/" . $section . ".php"); ?>
         </section>
+
     </main>
-
-
 </body>
 </html>

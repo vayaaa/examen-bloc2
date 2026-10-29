@@ -11,7 +11,6 @@ class LoginView
     {
         $this->controller = $controller;
         $this->template = DIR_TEMPLATES . "login.php";
-
     }
 
     public function render()
@@ -19,7 +18,6 @@ class LoginView
         $errorMessage = $this->controller->getErrorMessage();
 
         require($this->template);
-
     }
 
 }

@@ -1,14 +1,12 @@
 <?php
-
+//import de la BDD json du bloc1
 require_once __DIR__ . "/../config/config.php";
 
-// Connexion à la bdd
 $dsn = "mysql:host=127.0.0.1;port=8889;dbname=" . DB_DATABASE . ";charset=utf8mb4";
 $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // les erreurs SQL arrivent dans le catch
 ]);
 
-// Lecture des json
 $categories = json_decode(file_get_contents(__DIR__ . "/data/categories.json"), true);
 $catalog = json_decode(file_get_contents(__DIR__ . "/data/produits.json"), true);
 
@@ -16,7 +14,7 @@ if ($categories === null || $catalog === null) {
     die("Fichiers introuvables ou JSON invalide\n");
 }
 
-// On démarre la transaction : tout est enregistré à la fin, ou rien
+// Démarre la transaction
 $db->beginTransaction();
 
 try {
@@ -37,10 +35,7 @@ try {
     $query = $db->prepare("INSERT INTO products (category_id, name, price, image) VALUES (:category_id, :name, :price, :image)");
     $productIds = [];
 
-    // $categoryName = "burgers", "boissons"... / $items = la liste de produits de cette catégorie
     foreach ($catalog as $categoryName => $items) {
-
-        // Les menus ont leur propre table, on les fait plus bas
         if ($categoryName === "menus") {
             continue;
         }
@@ -70,7 +65,7 @@ try {
 
         $menuId = $db->lastInsertId();
 
-        // Lien entre le menu et le burger : "Menu Big Mac" -> "Big Mac"
+        // Lien entre le menu et le burger
         $burgerName = str_replace("Menu ", "", $menu["nom"]);
 
         if (isset($productIds[$burgerName])) {
@@ -81,13 +76,13 @@ try {
         }
     }
 
-    $db->commit(); // on valide tout
+    $db->commit(); // on valide
 
     echo "Import terminé : " . count($categoryIds) . " catégories, "
         . count($productIds) . " produits, " . count($catalog["menus"]) . " menus.\n";
 
 } catch (Exception $e) {
-    $db->rollBack(); // on annule tout
+    $db->rollBack(); // si erreur on annule 
     echo "Erreur, rien n'a été importé : " . $e->getMessage() . "\n";
 }
 

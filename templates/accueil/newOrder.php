@@ -35,8 +35,8 @@
                         <button type="button" class="item" data-type="menu" data-category="menus"
                             data-id="<?= (int) $menu['id'] ?>"
                             data-name="<?= htmlspecialchars($menu['name'], ENT_QUOTES, 'UTF-8') ?>"
-                            data-price="<?= htmlspecialchars($menu['price'], ENT_QUOTES, 'UTF-8') ?>" 
-                            data-options="<?= htmlspecialchars($menu['options'] ?? '[]',ENT_QUOTES,'UTF-8') ?>">
+                            data-price="<?= htmlspecialchars($menu['price'], ENT_QUOTES, 'UTF-8') ?>"
+                            data-options="<?= htmlspecialchars($menu['options'] ?? '[]', ENT_QUOTES, 'UTF-8') ?>">
                             <img src="./assets/img/products<?= htmlspecialchars($menu['image']) ?>" alt="">
                             <span class="name"><?= htmlspecialchars($menu['name']) ?></span>
                             <span class="price">
@@ -59,7 +59,6 @@
                             </button>
                         <?php } ?>
                     <?php } ?>
-
                 </div>
             </section>
         </section>

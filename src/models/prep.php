@@ -27,10 +27,9 @@ class PrepModel
     }
 
     //Récupération des éléments à afficher dans le screen
-    //Tableau de bord 
+    //Tableau de bord
     public function getStats(): array
     {
-
         $stats = [];
 
         $stats["to_prepare"] = $this->db->query("SELECT COUNT(*) FROM orders WHERE status = 'to_prepare'")->fetchColumn();
@@ -39,6 +38,7 @@ class PrepModel
 
         return $stats;
     }
+
 
     //Récupérer la liste des commandes
     public function getOrders(string $status): array
@@ -75,6 +75,7 @@ class PrepModel
         return $query->fetchAll();
     }
 
+
     //Changement de status (à préparer -> préparée)
     public function pushToPrepared(int $orderId): void
     {
@@ -85,8 +86,6 @@ class PrepModel
         $query->bindValue(":id", $orderId);
         $query->execute();
     }
-
-
 }
 
 ?>

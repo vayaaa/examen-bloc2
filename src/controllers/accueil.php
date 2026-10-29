@@ -1,6 +1,4 @@
 <?php
-
-
 class Accueilcontroller
 {
     private AccueilModel $model;
@@ -8,10 +6,12 @@ class Accueilcontroller
     private array $sections = ["dashboard", "neworder", "prepared"];
     private string $errorMessage = "";
 
+
     public function __construct(AccueilModel $model)
     {
         $this->model = $model;
     }
+
 
     //Information de l'utilisateur qui se connecte
     public function getUsername(): string
@@ -28,7 +28,7 @@ class Accueilcontroller
     //appel avant affichage
     public function handleRequest(): void
     {
-        //Que admin autorisé
+        //Que accueil autorisé
         if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "accueil") {
             header("Location: index.php?page=login");
             exit;
@@ -57,6 +57,8 @@ class Accueilcontroller
         }
     }
 
+
+
     // Remise d'une commande au client: préparée -> livrée
     private function deliverOrder(): void
     {
@@ -71,39 +73,35 @@ class Accueilcontroller
     }
 
 
-
     // Enregistre une nouvelle commande.
     private function createOrder(): void
     {
-        // 1. On lit ce que le formulaire a envoyé.
+        // que dit le formulaire a envoyé
         $source = $_POST["source"] ?? "";
         $time = $_POST["delivery_time"] ?? "";
         $products = $_POST["products"] ?? [];
         $menuLines = $_POST["menu_lines"] ?? [];
 
-        // 2. On vérifie. En cas de problème : message d'erreur, puis return (on s'arrête là).
+        // Vérification 
         if (!in_array($source, ["comptoir", "telephone"], true)) {
             $this->errorMessage = "Choisissez comptoir ou téléphone.";
             return;
         }
 
-        // preg_match vérifie que l'heure ressemble à 14:35.
         if (!is_string($time) || !preg_match("/^([01][0-9]|2[0-3]):[0-5][0-9]$/", $time)) {
             $this->errorMessage = "Heure de livraison invalide.";
             return;
         }
 
-        // Les quantités doivent arriver sous forme de listes (tableaux).
+        // Les quantités sont sous forme de tableaux
         if (!is_array($products) || !is_array($menuLines)) {
             $this->errorMessage = "Commande invalide.";
             return;
         }
 
-        // 3. Date complète = aujourd'hui + l'heure choisie. Le "." colle deux textes ensemble.
         $deliveryTime = date("Y-m-d") . " " . $time . ":00";
 
-        // 4. On demande au modèle d'enregistrer.
-        // try = "essaie". Si le modèle déclenche une erreur, catch la récupère.
+        //enregistre sauf si erreur
         try {
             $ticket = $this->model->newOrder(
                 (int) $_SESSION["user_id"],
@@ -114,21 +112,18 @@ class Accueilcontroller
             );
 
         } catch (InvalidArgumentException $e) {
-            // Erreur "normale" (commande vide, produit indisponible...) : le message est affichable.
+            // Erreur "normale" (commande vide, produit indisponible...), on affiche le message
             $this->errorMessage = $e->getMessage();
             return;
 
         } catch (Exception $e) {
-            // Erreur technique (base de données...) : on ne montre JAMAIS le détail à l'utilisateur.
+            // Erreur technique (base de données...), on ne montre pas le détail à l'utilisateur 
             error_log($e->getMessage());
-            $this->errorMessage = "Erreur technique : " . $e->getMessage();
+            $this->errorMessage = "Erreur technique: la commande n'a pas été enregistrée.";
             return;
-            // $this->errorMessage = "Erreur technique : la commande n'a pas été enregistrée.";
-            // return;
         }
 
-        // 5. Succès : un message gardé en session, puis on recharge la page.
-        // Le rechargement évite que la commande soit renvoyée si on actualise.
+        //Enregistré
         $_SESSION["success_message"] = "Commande enregistrée. Numéro de ticket : " . $ticket;
         header("Location: index.php?page=accueil&section=neworder");
         exit;
@@ -193,7 +188,7 @@ class Accueilcontroller
     }
 
 
-
+    //Récupérer les messages à afficher à l'utilisateur
     public function getErrorMessage(): string
     {
         return $this->errorMessage;

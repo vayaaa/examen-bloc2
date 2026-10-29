@@ -17,7 +17,6 @@ class LogoutView
     {
         $controller = $this->controller;
 
-
         include($this->template);
     }
 }

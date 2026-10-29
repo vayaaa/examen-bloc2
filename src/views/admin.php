@@ -23,10 +23,9 @@ class AdminView
         if ($section === "menus") {
             $availableProducts = $this->controller->getAvailableProducts();
         }
+
         require($this->template);
-
     }
-
 }
 
 

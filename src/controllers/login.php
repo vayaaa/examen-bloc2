@@ -10,6 +10,7 @@ class LoginController
         $this->model = $model;
     }
 
+
     // Appelé avant l'affichage
     public function handleRequest(): void
     {
@@ -29,7 +30,6 @@ class LoginController
             return false;
         }
 
-
         $user = $this->model->findbyEmail($email);
 
         //Vérifiacation du mail et du mdp + on ne révèle pas si l'email existe en cas d'erreur
@@ -38,10 +38,11 @@ class LoginController
             return false;
         }
 
-        session_regenerate_id(true); //?? 
-     $_SESSION["user_id"] = (int) $user["id"];
-$_SESSION["first_name"] = $user["first_name"];
-$_SESSION["role"] = $user["role"];
+        session_regenerate_id(true); //génération d'un nouvel id de session et supprime l'ancienne
+        //Enregistrer les infos dans la session
+        $_SESSION["user_id"] = (int) $user["id"];
+        $_SESSION["first_name"] = $user["first_name"];
+        $_SESSION["role"] = $user["role"];
 
         return true;
     }
@@ -63,7 +64,6 @@ $_SESSION["role"] = $user["role"];
             header("location: index.php?page=accueil");
         }
 
-
         exit;
     }
 
@@ -73,7 +73,6 @@ $_SESSION["role"] = $user["role"];
     {
         return $this->errorMessage;
     }
-
 }
 
 ?>

@@ -26,7 +26,7 @@
                             <button type="button" class="modifier modifier-user" data-id="<?= (int) $user["id"] ?>"
                                 data-firstname="<?= htmlspecialchars($user["first_name"]) ?>"
                                 data-lastname="<?= htmlspecialchars($user["last_name"]) ?>"
-                               data-role="<?= (int) $user["role_id"] ?>">
+                                data-role="<?= (int) $user["role_id"] ?>">
                                 <img class="modifier" src="./assets/img/pen-solid-full.svg" alt="modifier">
                             </button>
                         </td>

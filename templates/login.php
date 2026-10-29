@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
     <main class="login-container">
         <img id="logo" src="./assets/img/logo.png" alt="logo wacdo">
 
@@ -40,9 +39,6 @@
                 <input class="connect-button" type="submit" value="Se connecter" />
             </form>
         </section>
-        
     </main>
-
 </body>
-
 </html>

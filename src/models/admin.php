@@ -29,7 +29,6 @@ class AdminModel
     //Tableau de bord _________________________________________________________________
     public function getStats(): array
     {
-
         $stats = [];
 
         $stats["products"] = $this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
@@ -51,12 +50,10 @@ class AdminModel
 
         $query = $this->db->prepare($products_sql);
         $query->execute();
-
-        // Récupère tous les produits 
         $products = $query->fetchAll();
 
+        // Correction lien image
         foreach ($products as $key => $product) {
-            // Correction lien image
             $products[$key]["image"] = str_replace(".png.png", ".png", $product["image"]);
             $products[$key]["image"] = str_replace(".jpg.png", ".png", $products[$key]["image"]);
         }
@@ -93,7 +90,7 @@ class AdminModel
             ":id" => $id
         ]);
 
-        // Vérifie que le produit existe
+        // Vérifier que le produit existe
         if ($query->rowCount() === 0) {
             $check = $this->db->prepare(
                 "SELECT id 
@@ -199,7 +196,6 @@ class AdminModel
                 "SELECT id FROM menus WHERE id = :id"
             );
 
-
             $check->execute([":id" => $id]);
 
             if ($check->fetch() === false) {
@@ -207,7 +203,7 @@ class AdminModel
                 return false;
             }
 
-            // Supprimer les anciennes associations du menu.
+            // Supprimer les anciennes associations du menu
             $delete = $this->db->prepare(
                 "DELETE FROM menu_products WHERE menu_id = :menu_id"
             );
@@ -216,13 +212,13 @@ class AdminModel
                 ":menu_id" => $id
             ]);
 
-            // Préparer la requête pour ajouter les nouvelles options.
+            // Préparer la requête pour ajouter les nouvelles options
             $insert = $this->db->prepare(
                 "INSERT INTO menu_products (menu_id, product_id, quantity)
                  VALUES (:menu_id, :product_id, 1)"
             );
 
-            // Enregistrer chaque option cochée.
+            // Enregistrer chaque option cochée
             foreach ($options as $productId) {
                 $insert->execute([
                     ":menu_id" => $id,
@@ -230,23 +226,21 @@ class AdminModel
                 ]);
             }
 
-            // Valider toutes les modifications.
+            // Valider les modifs
             $this->db->commit();
 
             return true;
 
 
         } catch (PDOException $e) {
-            // En cas d'erreur, annuler les modifications.
+            // En cas d'erreur annuler
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
 
             return false;
-
         }
     }
-
 
 
     //Utilisateurs_________________________________________________________________
@@ -286,7 +280,7 @@ class AdminModel
             ":id" => $id
         ]);
 
-        // Vérifie que le produit existe
+        // Vérifie que l'utilisateur 'existe
         if ($query->rowCount() === 0) {
             $check = $this->db->prepare(
                 "SELECT id 
@@ -295,8 +289,7 @@ class AdminModel
             );
 
             $check->execute([":id" => $id]);
-
-            // Si aucun utilisateur n'existe, la modification a échoué.
+            
             if ($check->fetch() === false) {
                 return false;
             }

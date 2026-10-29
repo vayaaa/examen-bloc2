@@ -36,7 +36,7 @@
                             <form method="post" action="index.php?page=accueil&amp;section=prepared">
                                 <input type="hidden" name="action" value="deliver">
                                 <input type="hidden" name="order_id" value="<?= (int) $order['id'] ?>">
-                                
+
                                 <button class="submit-button" type="submit">Livrer</button>
                             </form>
                         </td>

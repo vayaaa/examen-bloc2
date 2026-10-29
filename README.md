@@ -41,4 +41,5 @@ L'objectif de ce projet est de développer l'interface d'administration de l'app
 
 # Accès 
 L'application Wacdo est accessible en ligne via l'URL suivante: 
+https://wacdo-restaurant.alwaysdata.net/
 

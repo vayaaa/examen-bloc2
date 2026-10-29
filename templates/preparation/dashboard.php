@@ -11,14 +11,14 @@
         <li class="card">
             <a href="index.php?page=prep&amp;section=prepared">
                 <h4>Préparées</h4>
-                <p><?=  (int) $stats["prepared"] ?></p>
+                <p><?= (int) $stats["prepared"] ?></p>
             </a>
         </li>
 
         <li class="card">
             <a href="index.php?page=prep&amp;section=delivered">
                 <h4>Livrées</h4>
-                <p><?=  (int) $stats["delivered"] ?></p>
+                <p><?= (int) $stats["delivered"] ?></p>
             </a>
         </li>
     </ul>
