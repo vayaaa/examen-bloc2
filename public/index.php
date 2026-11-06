@@ -43,6 +43,10 @@ $pages = array(
         "model" => "LogoutModel",
         "controller" => "LogoutController",
         "view" => "LogoutView",
+    ),
+    "account" => array(
+        "model" => "AccountModel",
+        "controller" => "AccountController",
     )
 );
 
@@ -54,7 +58,7 @@ foreach ($pages as $key => $value) {
 
         $model = $value["model"];
         $controller = $value["controller"];
-        $view = $value["view"];
+        $view = $value["view"] ?? null;
 
         break;
     }
@@ -84,19 +88,25 @@ if ($find) {
     //On importe des diff classes
     require(DIR_MODEL . $page . ".php");
     require(DIR_CONTROLLER . $page . ".php");
-    require(DIR_VIEW . $page . ".php");
+    // Seulement les pages qui ont une vue
+    if ($view !== null) {
+        require(DIR_VIEW . $page . ".php");
+    }
 
     //On instancie les classes importer
     $pageModel = new $model($db);
     $pageController = new $controller($pageModel);
-    $pageView = new $view($pageController);
 
     // Le contrôleur traite le formulaire AVANT l'affichage
     if (method_exists($pageController, "handleRequest")) {
         $pageController->handleRequest();
     }
 
-    $pageView->render();
+   // Seulement les pages qui ont une vue
+    if ($view !== null) {
+        $pageView = new $view($pageController);
+        $pageView->render();
+    }
 }
 
 ?>

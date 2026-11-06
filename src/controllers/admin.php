@@ -59,6 +59,7 @@ class AdminController
                 $image = trim($_POST["image"] ?? "");
                 $availableValue = $_POST["is_available"] ?? "";
 
+                // Vérifier les données reçues
                 if (
                     !$id
                     || $name === ""
@@ -148,6 +149,7 @@ class AdminController
                     $validOptions[] = $optionId;
                 }
 
+                // Pas de doublons
                 $options = array_values(array_unique($validOptions));
 
                 if (
@@ -277,7 +279,7 @@ class AdminController
     }
 
 
- // Récupérer les options dans la modale des menus
+    // Récupérer les options dans la modale des menus
     public function getAvailableProducts(): array
     {
         return $this->model->getAvailableProducts();

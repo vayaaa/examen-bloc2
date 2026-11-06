@@ -20,8 +20,8 @@
         <section id="login">
             <h1>Connexion</h1>
 
-            <?php if (htmlspecialchars($errorMessage) !== "") { ?>
-                <p class="error"><?= $errorMessage ?> </p>
+            <?php if ($errorMessage !== "") { ?>
+                <p class="error"><?= htmlspecialchars($errorMessage) ?> </p>
 
             <?php } ?>
 

@@ -33,7 +33,7 @@ class AdminModel
 
         $stats["products"] = $this->db->query("SELECT COUNT(*) FROM products")->fetchColumn();
         $stats["menus"] = $this->db->query("SELECT COUNT(*) FROM menus")->fetchColumn();
-        $stats["users"] = $this->db->query("SELECT COUNT(*) FROM users")->fetchColumn();
+        $stats["users"] = $this->db->query("SELECT COUNT(*) FROM users WHERE is_active = 1")->fetchColumn();
         $stats["order_to_prepare"] = $this->db->query("SELECT COUNT(*) FROM orders WHERE status = 'to_prepare'")->fetchColumn();
 
         return $stats;
@@ -249,6 +249,7 @@ class AdminModel
         $users_sql = "SELECT users.id, users.first_name, users.last_name, users.email,  users.role_id, roles.name AS role
                 FROM users
                 JOIN roles ON users.role_id = roles.id
+                 WHERE users.is_active = 1
                 ORDER BY users.last_name";
 
         $query = $this->db->prepare($users_sql);
@@ -289,7 +290,7 @@ class AdminModel
             );
 
             $check->execute([":id" => $id]);
-            
+
             if ($check->fetch() === false) {
                 return false;
             }

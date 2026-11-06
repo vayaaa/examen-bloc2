@@ -1,4 +1,3 @@
-
 const SIDE_CATEGORY = "frites";
 const DRINK_CATEGORY = "boissons";
 
@@ -262,7 +261,6 @@ function openMenuModal(card) {
 // Bouton Ajouter
 addModalButton.addEventListener("click", function () {
     addToCart("menu", currentMenu.id, currentMenu.name, currentMenu.price, currentMenu.side, currentMenu.drink);
-
     modal.close(); // ferme la modale
 });
 

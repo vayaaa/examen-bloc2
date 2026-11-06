@@ -13,7 +13,7 @@ class LoginModel
     //Renvoie les infos de l'utilisateur si il existe sinon false
     public function findbyEmail(string $email): array|false
     {
-        $sql = "SELECT users.id, users.first_name, users.password, roles.name AS role
+        $sql = "SELECT users.id, users.first_name, users.password, users.last_name, users.email, roles.name AS role
                 FROM users
                 JOIN roles ON users.role_id = roles.id
                 WHERE users.email = :email";

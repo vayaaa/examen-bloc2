@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <?= include(DIR_TEMPLATES . "header.php") ?>
+    <?php include(DIR_TEMPLATES . "header.php") ?>
 
     <main class="accueil-container">
         <section id="menu">

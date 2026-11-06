@@ -10,7 +10,7 @@ header {
     align-items: center;
     justify-content: space-between;
     padding: 0 2rem;
-    margin-bottom:2rem;
+    margin-bottom: 2rem;
 
     #logo {
         width: 5rem;
@@ -34,15 +34,72 @@ header {
                 font-weight: 700;
                 font-size: 2rem;
             }
+        }
 
-            .button {
-                @include m.outline-button;
-                align-self: center;
-                color: v.$text-color;
-                text-decoration: none;
+        .button {
+            @include m.outline-button;
+            align-self: center;
+            color: v.$text-color;
+            text-decoration: none;
 
-
+            &:hover {
+                background-color: v.$main-yellow;
             }
+
+            button {
+                display: flex;
+                background: transparent;
+                border: none;
+                padding: 0;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+//Modales _______________________________________________________________
+#account-modal {
+    @include m.modal-base;
+
+    form+form {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 0.1rem solid v.$border;
+    }
+
+    h3 {
+        margin: 0 0 0.5rem;
+    }
+
+    .save-button {
+        background-color: transparent;
+        border-radius: 0.8rem;
+        padding: 1.2rem 2.5rem;
+        border: 0.1rem solid v.$border;
+
+        &:hover {
+            background-color: v.$main-yellow;
+            cursor: pointer;
+        }
+    }
+
+    #delete-form p {
+        color: rgb(255, 34, 34);
+        font-weight: 700;
+        font-style: italic;
+        margin: 0;
+    }
+
+    .danger-button {
+        @include m.button-base;
+        background-color: rgb(255, 34, 34);
+        color: white;
+
+        &:hover {
+
+            background-color: rgb(67, 1, 1);
+            color: rgb(255, 34, 34);
+            cursor: pointer;
         }
     }
 }

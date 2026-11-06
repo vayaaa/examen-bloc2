@@ -23,7 +23,7 @@ class LoginController
     public function validateLogin(): bool
     {
         $email = trim(strip_tags($_POST['email'] ?? ""));
-        $password = trim($_POST['password'] ?? "");
+        $password = $_POST['password'] ?? "";
 
         if ($email === "" || $password === "") {
             $this->errorMessage = "Veuillez remplir tous les champs.";
@@ -42,6 +42,8 @@ class LoginController
         //Enregistrer les infos dans la session
         $_SESSION["user_id"] = (int) $user["id"];
         $_SESSION["first_name"] = $user["first_name"];
+        $_SESSION["last_name"] = $user["last_name"];
+        $_SESSION["email"] = $user["email"];
         $_SESSION["role"] = $user["role"];
 
         return true;
@@ -54,16 +56,15 @@ class LoginController
 
         if ($role === "admin") {
             header("location: index.php?page=admin");
-        }
-
-        if ($role === "preparation") {
+        } elseif ($role === "preparation") {
             header("location: index.php?page=prep");
-        }
-
-        if ($role === "accueil") {
+        } elseif ($role === "accueil") {
             header("location: index.php?page=accueil");
+        } else {
+            $_SESSION = [];
+            session_destroy();
+            header("Location: index.php?page=login");
         }
-
         exit;
     }
 

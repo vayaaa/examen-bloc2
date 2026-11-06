@@ -383,7 +383,7 @@ header nav ul li .role {
   font-weight: 700;
   font-size: 2rem;
 }
-header nav ul li .button {
+header nav ul .button {
   border: none;
   border-radius: 0.8rem;
   padding: 1.2rem 2.5rem;
@@ -395,6 +395,123 @@ header nav ul li .button {
   align-self: center;
   color: #292929;
   text-decoration: none;
+}
+header nav ul .button:hover {
+  background-color: #FFC836;
+}
+header nav ul .button button {
+  display: flex;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+#account-modal {
+  width: min(60rem, 90vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 2rem;
+  border: none;
+  border-radius: 1.6rem;
+}
+#account-modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+#account-modal h2 {
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+#account-modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+#account-modal label {
+  font-weight: 400;
+  margin-top: 0.5rem;
+}
+#account-modal input,
+#account-modal textarea,
+#account-modal select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  border: 0.1rem solid #6E6E6E;
+  border-radius: 0.6rem;
+  font: inherit;
+  background: white;
+  color: black;
+}
+#account-modal input:focus,
+#account-modal textarea:focus,
+#account-modal select:focus {
+  outline: 0.15rem solid #6E6E6E;
+  outline-offset: 0.1rem;
+}
+#account-modal textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+#account-modal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+#account-modal .modal-actions button {
+  cursor: pointer;
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: #FFC836;
+}
+#account-modal .modal-actions .cancel-button {
+  background: transparent;
+  border: 0.1rem solid #6E6E6E;
+}
+#account-modal form + form {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 0.1rem solid #6E6E6E;
+}
+#account-modal h3 {
+  margin: 0 0 0.5rem;
+}
+#account-modal .save-button {
+  background-color: transparent;
+  border-radius: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  border: 0.1rem solid #6E6E6E;
+}
+#account-modal .save-button:hover {
+  background-color: #FFC836;
+  cursor: pointer;
+}
+#account-modal #delete-form p {
+  color: rgb(255, 34, 34);
+  font-weight: 700;
+  font-style: italic;
+  margin: 0;
+}
+#account-modal .danger-button {
+  border: none;
+  border-radius: 0.8rem;
+  padding: 1.2rem 2.5rem;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  background-color: rgb(255, 34, 34);
+  color: white;
+}
+#account-modal .danger-button:hover {
+  background-color: rgb(67, 1, 1);
+  color: rgb(255, 34, 34);
+  cursor: pointer;
 }
 
 .accueil-container {

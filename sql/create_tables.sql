@@ -96,3 +96,10 @@ FOREIGN KEY(order_id)REFERENCES orders(id) ON DELETE CASCADE,
 FOREIGN KEY(product_id)REFERENCES products(id),
 FOREIGN KEY (menu_id) REFERENCES menus(id)
 );
+
+
+
+
+-- Ajout de is_active pour les users
+ALTER TABLE users
+ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1 AFTER password;
