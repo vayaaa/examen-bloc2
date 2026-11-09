@@ -25,7 +25,7 @@
                     <th class="dropdown">
 
                         <button class="drop-btn">
-                            <?= $selectedCategory ? htmlspecialchars($selectedCategory) : "Toutes catégories" ?>
+                            <?= $selectedCategory ? htmlspecialchars($selectedCategory, ENT_QUOTES, 'UTF-8') : "Toutes catégories" ?>
                             <img class="chevron" src="./assets/img/chevron-down-solid-full.svg" alt="chevron">
                         </button>
 
@@ -34,7 +34,7 @@
 
                             <?php foreach ($categories as $category) { ?>
                                 <a href="?page=admin&section=products&category=<?= urlencode($category) ?>">
-                                    <?= htmlspecialchars($category) ?>
+                                    <?= htmlspecialchars($category, ENT_QUOTES, 'UTF-8') ?>
                                 </a>
                             <?php } ?>
                         </div>
@@ -61,13 +61,13 @@
                     ?>
 
                     <tr>
-                        <td><img src="./assets/img/products<?= htmlspecialchars($product["image"]) ?>"
-                                alt="<?= htmlspecialchars($product["name"]) ?>"></td>
-                        <td><?= htmlspecialchars($product["name"]) ?></td>
+                        <td><img src="./assets/img/products<?= htmlspecialchars($product["image"], ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?>"></td>
+                        <td><?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?></td>
 
-                        <td><?= htmlspecialchars($product["category"]) ?></td>
+                        <td><?= htmlspecialchars($product["category"], ENT_QUOTES, 'UTF-8') ?></td>
 
-                        <td><?= htmlspecialchars($product["price"]) ?> €</td>
+                        <td><?= htmlspecialchars($product["price"], ENT_QUOTES, 'UTF-8') ?> €</td>
 
                         <td>
                             <?= $product["is_available"]
@@ -77,10 +77,10 @@
 
                         <td>
                             <button type="button" class="modifier-product" data-id="<?= (int) $product["id"] ?>"
-                                data-name="<?= htmlspecialchars($product["name"]) ?>"
-                                data-description="<?= htmlspecialchars($product['description'] ?? '') ?>"
-                                data-price="<?= htmlspecialchars((string) $product['price']) ?>"
-                                data-image="<?= htmlspecialchars($product['image']) ?>"
+                                data-name="<?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?>"
+                                data-description="<?= htmlspecialchars($product['description'] ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                data-price="<?= htmlspecialchars((string) $product['price'], ENT_QUOTES, 'UTF-8') ?>"
+                                data-image="<?= htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') ?>"
                                 data-available="<?= (int) $product['is_available'] ?>">
                                 <img class="modifier" src="./assets/img/pen-solid-full.svg" alt="modifier">
                             </button>

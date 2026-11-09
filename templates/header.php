@@ -11,10 +11,10 @@ $email = $_SESSION["email"] ?? "";
     <nav>
         <ul>
             <li>
-                <p class="name" id="header-name"><?= htmlspecialchars($user_name) ?></p>
+                <p class="name" id="header-name"><?= htmlspecialchars($user_name, ENT_QUOTES, 'UTF-8') ?></p>
             </li>
             <li>
-                <p class="role"><?= htmlspecialchars($user_role) ?></p>
+                <p class="role"><?= htmlspecialchars($user_role, ENT_QUOTES, 'UTF-8') ?></p>
             </li>
             <li>
                 <button type="button" class="button" id="open-account" aria-label="Mon compte">Mon compte</button>
@@ -30,19 +30,18 @@ $email = $_SESSION["email"] ?? "";
 <!-- Modale pour la modification de mon compte -->
 <dialog id="account-modal">
     <h2>Mon compte</h2>
-    <p>Email : <?= htmlspecialchars($email) ?></p>
+    <p>Email : <?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?></p>
 
     <form id="account-form">
         <label for="account-firstname">Prénom</label>
         <input type="text" id="account-firstname" name="first_name" maxlength="100"
-            value="<?= htmlspecialchars($firstName) ?>" required>
+            value="<?= htmlspecialchars($firstName, ENT_QUOTES, 'UTF-8') ?>" required>
 
         <label for="account-lastname">Nom</label>
         <input type="text" id="account-lastname" name="last_name" maxlength="100"
-            value="<?= htmlspecialchars($lastName) ?>" required>
+            value="<?= htmlspecialchars($lastName, ENT_QUOTES, 'UTF-8') ?>" required>
 
         <div class="modal-actions">
-            <button type="button" id="cancel-account-modal" class="cancel-button">Annuler</button>
             <button type="submit" id="save-account-modal" class="save-button">Enregistrer</button>
         </div>
     </form>

@@ -17,10 +17,10 @@
             <tbody>
                 <?php foreach ($data as $menu) { ?>
                     <tr>
-                        <td><img src="./assets/img/products<?= htmlspecialchars($menu["image"]) ?>"
-                                alt="<?= htmlspecialchars($product["name"]) ?>"></td>
-                        <td><?= htmlspecialchars($menu["name"]) ?></td>
-                        <td><?= htmlspecialchars($menu["price"]) ?> €</td>
+                        <td><img src="./assets/img/products<?= htmlspecialchars($menu["image"], ENT_QUOTES, 'UTF-8') ?>"
+                                alt="<?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?>"></td>
+                        <td><?= htmlspecialchars($menu["name"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td><?= htmlspecialchars($menu["price"], ENT_QUOTES, 'UTF-8') ?> €</td>
                         <td>
                             <?= $menu["is_available"]
                                 ? "Disponible"
@@ -75,7 +75,7 @@
                         value="<?= (int) $product['id'] ?>">
 
                     <label for="option-<?= (int) $product['id'] ?>">
-                        <?= htmlspecialchars($product['name']) ?>
+                        <?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>
                     </label>
                 </div>
             <?php } ?>

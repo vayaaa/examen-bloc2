@@ -4,28 +4,28 @@
         <li class="card">
             <a href="index.php?page=admin&amp;section=products">
                 <h4>Produits</h4>
-                <p><?= $data["products"] ?> </p>
+                <p><?= (int) $data["products"] ?></p>
             </a>
         </li>
 
         <li class="card">
             <a href="index.php?page=admin&amp;section=menus">
                 <h4>Menus</h4>
-                <p><?= $data["menus"] ?></p>
+                <p><?= (int) $data["menus"] ?></p>
             </a>
         </li>
 
         <li class="card">
             <a href="index.php?page=admin&amp;section=users">
                 <h4>Utilisateurs</h4>
-                <p> <?= $data["users"] ?></p>
+                <p> <?= (int) $data["users"] ?></p>
             </a>
         </li>
 
         <li class="card">
             <a href="index.php?page=admin&amp;section=orders">
                 <h4>Commandes en cours</h4>
-                <p><?= $data["order_to_prepare"] ?></p>
+                <p><?= (int) $data["order_to_prepare"] ?></p>
             </a>
         </li>
     </ul>

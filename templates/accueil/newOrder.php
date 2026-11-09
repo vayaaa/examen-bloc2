@@ -2,11 +2,11 @@
     <h1>Nouvelle commande</h1>
 
     <?php if ($errorMessage !== "") { ?>
-        <p class="message error"><?= htmlspecialchars($errorMessage) ?></p>
+        <p class="message error"><?= htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') ?></p>
     <?php } ?>
 
     <?php if ($successMessage !== "") { ?>
-        <p class="message success"><?= htmlspecialchars($successMessage) ?></p>
+        <p class="message success"><?= htmlspecialchars($successMessage, ENT_QUOTES, 'UTF-8') ?></p>
     <?php } ?>
 
     <div class="order-layout">
@@ -16,11 +16,12 @@
             <section class="categories">
                 <div id="categories-container">
                     <?php foreach ($categories as $category) { ?>
-                        <button type="button" class="item" data-category="<?= htmlspecialchars($category["name"]) ?>"
-                            data-label="<?= htmlspecialchars(ucfirst($category["name"])) ?>">
-                            <img src="./assets/img<?= htmlspecialchars($category["image"] ?? "") ?>" alt="">
-                            <span><?= htmlspecialchars(ucfirst($category["name"])) ?></span>
-                        </button>
+                        <button type="button" class="item"
+                            data-category="<?= htmlspecialchars($category["name"], ENT_QUOTES, 'UTF-8') ?>"
+                            data-label="<?= htmlspecialchars(ucfirst($category["name"]), ENT_QUOTES, 'UTF-8') ?>">
+                            <img src="./assets/img<?= htmlspecialchars($category["image"] ?? "", ENT_QUOTES, 'UTF-8') ?>"
+                                alt="">
+                            <span><?= htmlspecialchars(ucfirst($category["name"]), ENT_QUOTES, 'UTF-8') ?></span> </button>
                     <?php } ?>
                 </div>
             </section>
@@ -51,10 +52,11 @@
 
                             <button type="button" class="item" data-type="product"
                                 data-category="<?= htmlspecialchars($categoryName) ?>" data-id="<?= (int) $product["id"] ?>"
-                                data-name="<?= htmlspecialchars($product["name"]) ?>"
-                                data-price="<?= htmlspecialchars($product["price"]) ?>" hidden>
-                                <img src="./assets/img/products<?= htmlspecialchars($product["image"]) ?>" alt="">
-                                <span class="name"><?= htmlspecialchars($product["name"]) ?></span>
+                                data-name="<?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?>"
+                                data-price="<?= htmlspecialchars($product["price"], ENT_QUOTES, 'UTF-8') ?>" hidden>
+                                <img src="./assets/img/products<?= htmlspecialchars($product["image"], ENT_QUOTES, 'UTF-8') ?>"
+                                    alt="">
+                                <span class="name"><?= htmlspecialchars($product["name"], ENT_QUOTES, 'UTF-8') ?></span>
                                 <span class="price"><?= number_format((float) $product["price"], 2, ",", " ") ?> €</span>
                             </button>
                         <?php } ?>

@@ -20,14 +20,16 @@
                 <?php foreach ($orders as $order) { ?>
                     <tr>
 
-                        <td> <?= htmlspecialchars($order["ticket_number"]) ?></td>
+                        <td> <?= htmlspecialchars($order["ticket_number"], ENT_QUOTES, 'UTF-8') ?></td>
                         <td><?= date("H:i", strtotime($order["order_date"])) ?></td>
-                        <td> <?= htmlspecialchars($order["source"]) ?></td>
+                        <td> <?= htmlspecialchars($order["source"], ENT_QUOTES, 'UTF-8') ?></td>
                         <td>
                             <ul>
                                 <!-- Les items de la commandes -->
                                 <?php foreach ($order["items"] as $item) { ?>
-                                    <li><?= (int) $item["quantity"] ?> × <?= htmlspecialchars($item["name"]) ?></li>
+                                    <li><?= (int) $item["quantity"] ?> ×
+                                        <?= htmlspecialchars($item["name"], ENT_QUOTES, 'UTF-8') ?>
+                                    </li>
                                 <?php } ?>
                             </ul>
                         </td>

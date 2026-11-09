@@ -21,7 +21,7 @@
             <h1>Connexion</h1>
 
             <?php if ($errorMessage !== "") { ?>
-                <p class="error"><?= htmlspecialchars($errorMessage) ?> </p>
+                <p class="error"><?= htmlspecialchars($errorMessage, ENT_QUOTES, 'UTF-8') ?> </p>
 
             <?php } ?>
 

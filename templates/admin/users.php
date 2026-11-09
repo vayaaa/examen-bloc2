@@ -18,14 +18,14 @@
 
                 <?php foreach ($data as $user) { ?>
                     <tr>
-                        <td><?= htmlspecialchars($user["first_name"]) ?></td>
-                        <td> <?= htmlspecialchars($user["last_name"]) ?></td>
-                        <td> <?= htmlspecialchars($user["email"]) ?></td>
-                        <td> <?= htmlspecialchars($user["role"]) ?></td>
+                        <td><?= htmlspecialchars($user["first_name"],  ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($user["last_name"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($user["email"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($user["role"], ENT_QUOTES, 'UTF-8') ?></td>
                         <td>
                             <button type="button" class="modifier modifier-user" data-id="<?= (int) $user["id"] ?>"
-                                data-firstname="<?= htmlspecialchars($user["first_name"]) ?>"
-                                data-lastname="<?= htmlspecialchars($user["last_name"]) ?>"
+                                data-firstname="<?= htmlspecialchars($user["first_name"], ENT_QUOTES, 'UTF-8') ?>"
+                                data-lastname="<?= htmlspecialchars($user["last_name"], ENT_QUOTES, 'UTF-8') ?>"
                                 data-role="<?= (int) $user["role_id"] ?>">
                                 <img class="modifier" src="./assets/img/pen-solid-full.svg" alt="modifier">
                             </button>

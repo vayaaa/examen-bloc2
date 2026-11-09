@@ -15,11 +15,11 @@
             <tbody>
                 <?php foreach ($data as $order) { ?>
                     <tr>
-                        <td><?= htmlspecialchars($order["ticket_number"]) ?></td>
-                        <td> <?= htmlspecialchars($order["status"]) ?></td>
-                        <td> <?= htmlspecialchars($order["source"]) ?></td>
-                        <td> <?= htmlspecialchars($order["order_date"]) ?></td>
-                        <td> <?= htmlspecialchars($order["total_price"]) ?></td>
+                        <td><?= htmlspecialchars($order["ticket_number"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($order["status"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($order["source"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($order["order_date"], ENT_QUOTES, 'UTF-8') ?></td>
+                        <td> <?= htmlspecialchars($order["total_price"], ENT_QUOTES, 'UTF-8') ?></td>
                     </tr>
                 <?php } ?>
             </tbody>
