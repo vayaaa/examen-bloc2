@@ -2,7 +2,8 @@
 //import de la BDD json du bloc1
 require_once __DIR__ . "/../config/config.php";
 
-$dsn = "mysql:host=127.0.0.1;port=8889;dbname=" . DB_DATABASE . ";charset=utf8mb4";
+// $dsn = "mysql:host=ssh-wacdo-restaurant.alwaysdata.net ;port=22;dbname=" . DB_DATABASE . ";charset=utf8mb4";
+$dsn = "mysql:host=" . DB_HOSTNAME . ";dbname=" . DB_DATABASE . ";charset=utf8mb4";
 $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD, [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, // les erreurs SQL arrivent dans le catch
 ]);
